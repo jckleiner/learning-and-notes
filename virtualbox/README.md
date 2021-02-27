@@ -44,7 +44,7 @@ Ova files are tar archives containing various VM disk files in `.vmdk` format an
 
 After creating a new virtual machine or an OVA import, a new `.vdi` (or `.vmdk`) file is created in the `~/Virtualbox\ VMs` folder with the same name of the virtual machine. <ins>All future changes will be saved to that file, not to the file you imported.</ins>
 
-**BUT! Be aware**, if you imported a VDI file (meaning if you created a new VM and selected an existing VDI file as the hard disk), all your changes will be saved on that file. 
+**BUT! Be aware**, if you imported a VDI file (meaning if you created a new VM and selected an existing VDI file as the hard disk), all your changes will be saved on that file.
 
 So your VM won't work anymore if you move the original `.vdi` file because Virtualbox keeps a reference to that file in its registry and saves all the changes you made to that file.
 
@@ -55,6 +55,12 @@ But if you first move the `.vdi` file and then remove it, the registry won't be 
 * File -> Virtual Media Manager -> Removed existing images.
 
 **Removing all files of a VM:** Be careful when removing imported VDI files, as explained above, if you right click on the VM and select remove + delete all files, your external/imported VDI file will also be deleted!
+
+ * That's why prefer an OVA import over a VDI import!
+
+### Snapshots
+
+Snapshots can be created in order to save a specific state of a VM.
 
 ### Some Virtualbox errors
 
