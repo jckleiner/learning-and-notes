@@ -62,6 +62,10 @@ But if you first move the `.vdi` file and then remove it, the registry won't be 
 
 Snapshots can be created in order to save a specific state of a VM.
 
+### Migrate OVA to Different Operating Systems
+
+TODO, possible?
+
 ### Some Virtualbox errors
 
 **VirtualBox Cannot register the hard disk already exists**
