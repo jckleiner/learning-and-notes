@@ -58,7 +58,7 @@ But if you first move the `.vdi` file and then remove it, the registry won't be 
 
  * That's why prefer an OVA import over a VDI import!
 
-### Snapshots
+### Snapshots
 
 Snapshots can be created in order to save a specific state of a VM.
 
