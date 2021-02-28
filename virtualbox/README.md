@@ -71,3 +71,6 @@ TODO, possible?
 **VirtualBox Cannot register the hard disk already exists**
 
 * File -> Virtual Media Manager -> Removed existing images (note, I removed them only from the registry).
+
+### Uninstall VBox - MacOs
+Vbox comes with an installation script `VirbualBox_uninstall.tool` in the `.dmg` file. Run that to clean all vbox files from your macOs system.
