@@ -3,9 +3,10 @@
 ## Table of Contents
   1. [Coding Conventions](#coding-conventions)
   2. [Parsing Commandline Options With `getopts` / `getopt`](#parsing-commandline-options)
+  2. [Basics](#basics)
 
 <details id="coding-conventions">
-<summary>Coding Conventions</summary>
+<summary><b>Coding Conventions</b></summary>
 <br/>
 
 Although they are followed by everyone, here are still some conventions from [Google's Shell Style Guide](https://google.github.io/styleguide/shellguide.html#s7-naming-conventions).
@@ -22,7 +23,7 @@ Well, you asked for it!
 <br/>
 
 <details id="parsing-commandline-options">
-<summary>Parsing Commandline Options With <code>getopts</code> / <code>getopt</code></summary>
+<summary><b>Parsing Commandline Options With </b><code>getopts</code> / <code>getopt</code></summary>
 <br/>
 
 `getopts` is a built-in Unix shell command for parsing command-line arguments. It is designed to process command line arguments that follow the POSIX Utility Syntax Guidelines, based on the C interface of getopt. 
@@ -80,3 +81,36 @@ done
 
 
 </details>
+<br/>
+
+<details id="basics">
+<summary><b>Basics</b></summary>
+<br/>
+
+**Important**
+
+For variables and functions to be evaluated inside strings, use `"..."` and NOT `'...'`
+**TODO** sure?
+
+</details>
+<br/>
+
+**TODO**
+  * What does SHIFT + CMD + H do in Iterm?
+  * Jesse Skelton, other videos are also cool - https://www.youtube.com/channel/UC7syy0V3Ah9Ho4eRUCwRsRg
+  * Yabai - Tiling Window Manager for Mac [ Tutorial ] - https://www.youtube.com/watch?v=JL1lz77YbUE
+  * After a Minimal Linux Install: Graphical Envionment and Users - https://www.youtube.com/watch?v=nSHOb8YU9Gw
+  * slow quit apps?
+  * thor? Terminal?
+  * when git checkout commit, it doesnt show in terminal
+  * ADD: gss and commig with fzf
+  * ADD: make squash faster?
+  * ADD: to prompt, committed but not pushed, or how many commits up/down from remote
+  * ADD: to prompt, bold black line instead of grey, maybe underline?
+  * What is POSIX?
+  * What is POSIX complient OS/Shells?
+  * Bash if [[ == ]] glob matching? -> program 'shellcheck' can say posix complience2
+  * Unix, Linux, BSD, Mac are all mostly* POSIX complient? 
+    They are implemented tot>ally differently under the hood but yet they look so similar because posix complience?
+
+

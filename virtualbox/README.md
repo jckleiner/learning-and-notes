@@ -66,6 +66,19 @@ Snapshots can be created in order to save a specific state of a VM.
 
 TODO, possible?
 
+### Guest Additions
+
+https://superuser.com/questions/760327/vbox-guest-additions-iso-cant-be-mounted-because-of-verr-pdm-media-locked
+
+**Ubuntu 20.04**
+
+`sudo add-apt-repository multiverse`
+`sudo apt install virtualbox-guest-dkms virtualbox-guest-x11`
+`sudo reboot`
+`lsmod  | grep vbox` # confirm
+
+* **Increase graphics memory**: `VBoxManage modifyvm "nameOfTheVM" --vram 256`
+
 ### Some Virtualbox errors
 
 **VirtualBox Cannot register the hard disk already exists**

@@ -63,6 +63,8 @@ Show output:
     $ find ?
     $ find / -name 'pg_hba.conf' 2>/dev/null
     TODO: find name with wildcards?
+    TODO: find ignore case?
+    TODO: fuzzy find?
   ```  
     
 ### Find in package manager:
