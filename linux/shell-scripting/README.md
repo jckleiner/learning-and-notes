@@ -96,6 +96,7 @@ For variables and functions to be evaluated inside strings, use `"..."` and NOT 
 <br/>
 
 **TODO**
+  * Zefuk is AD?
   * What does SHIFT + CMD + H do in Iterm?
   * Jesse Skelton, other videos are also cool - https://www.youtube.com/channel/UC7syy0V3Ah9Ho4eRUCwRsRg
   * Yabai - Tiling Window Manager for Mac [ Tutorial ] - https://www.youtube.com/watch?v=JL1lz77YbUE
