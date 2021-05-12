@@ -462,6 +462,9 @@ order is important, use 'STAR' instead?
 
   Option 3 (WORKED):
     DevTools -> 3 Dots -> More Tools -> Sensors -> Location
+    Looks like the browser ignores the current time of the computer and fetches the timezone externally
+        If computer time is 15:00 and the timezone is set as America/Los_Angeles, 
+        moment().format() will display the actual time in America/Los_Angeles and take 15:00 into consideration
 
 # Mac crop image
   open it with photos -> edit -> crop -> give aspect ratio

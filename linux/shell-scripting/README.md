@@ -96,6 +96,7 @@ For variables and functions to be evaluated inside strings, use `"..."` and NOT 
 <br/>
 
 **TODO**
+  * Best practice for shebang sh?
   * Zefuk is AD?
   * What does SHIFT + CMD + H do in Iterm?
   * Jesse Skelton, other videos are also cool - https://www.youtube.com/channel/UC7syy0V3Ah9Ho4eRUCwRsRg
