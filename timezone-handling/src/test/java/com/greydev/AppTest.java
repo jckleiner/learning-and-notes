@@ -1,4 +1,4 @@
-package com.greydev.design_patterns;
+package com.greydev;
 
 import org.junit.jupiter.api.Test;
 
