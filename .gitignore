@@ -47,3 +47,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Word temporary
+~$*.doc*
+
+# Visio autosave temporary files
+*.~vsd*

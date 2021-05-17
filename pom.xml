@@ -15,6 +15,9 @@
 		<module>junit-mockito</module>
 		<module>thymeleaf</module>
 		<module>timezone-handling</module>
+		<!-- Sub-modules under a folder can be specified like this -->
+		<module>maven/learning-maven</module>
+		<module>maven/my-custom-plugin</module>
 	</modules>
 
 	<properties>
