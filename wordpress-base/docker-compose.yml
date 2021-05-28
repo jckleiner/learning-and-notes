@@ -1,5 +1,7 @@
 version: "3.9"
-    
+
+# create a .env file in the project root with env variables in it
+
 services:
   db:
     image: mysql:5.7
