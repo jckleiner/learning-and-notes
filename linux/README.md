@@ -36,7 +36,7 @@ Check the user entry in the /etc/passwd file to verify the user’s login shell:
 `sudo cat /etc/passwd`  ->  `username:x :1001:1001::/home/username:/usr/bin/zsh`
 
 
-To be able to log in as the newly created user, you need to set the user password. To do that run the passwd command followed by the username:
+To be able to log in as the newly created user, you need to set the user password. To do that run the `passwd` command followed by the username:
 
 `sudo passwd username`
 
@@ -120,7 +120,31 @@ An example `/etc/sudoers` file
  * The last "ALL" indicates these rules apply to all commands.
 
 
+## Firewall
+
+Out of the box, Ubuntu ships with no TCP or UDP ports open, hence the belief that there's no reason to run Uncomplicated Firewall (ufw) by default. I agree, though, that having ufw disabled is a strange decision. My reasoning being that inexperienced users are feasibly going to install things like Samba, Apache and such like as they experiment with the system put before them. If they don't understand the implications of this, they will expose themselves to malicious bevaviour on the internet.
+
+ * `UFW` – it is probably the most user-friendly firewall available in Linux. If you are a complete newbie or you just want to use your Linux without going to deep into its settings, use UFW.
+ * `iptables` - which is a more advanced but probably a proper way to configure the Linux Firewall. If you really want to learn Linux and you aim to become a Linux expert, you need to learn iptables.
+
+### UFW (Uncomplicated Firewall)
+(https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-18-04)
+
+UFW, or Uncomplicated Firewall, is an interface to iptables that is geared towards simplifying the process of configuring a firewall. While iptables is a solid and flexible tool, it can be difficult for beginners to learn how to use it to properly configure a firewall. If you’re looking to get started securing your network, and you’re not sure which tool to use, UFW may be the right choice for you.
+
+ * The service ufw is disabled after installation. So even if the ssh connection breaks after the installation, you will still be able to access the server. (`service --status-all`)
+
+If your Ubuntu server has IPv6 enabled, ensure that UFW is configured to support IPv6 so that it will manage firewall rules for IPv6 in addition to IPv4.
+
+The first rules to define are your default policies. These rules control how to handle traffic that does not explicitly match any other rules.
+ * By default, UFW is set to deny all incoming connections (`ufw default deny incoming`) and allow all outgoing connections (`ufw default allow outgoing`). 
+
+Allowing SSH Connections: `sudo ufw allow ssh` same as `sudo ufw allow 22` (allow all connections on port 22). If you configured your SSH daemon to use a different port, you will have to specify the appropriate port. For example, if your SSH server is listening on port 2222, you can use this command to allow connections on that port.
+
+Different applications can register their profiles with `UFW` upon installation. These profiles allow UFW to manage these applications by name. OpenSSH, the service allowing us to connect to our server now, has a profile registered with UFW.
+
 
 ### TODOs
   - `su` means super user or switch user/substitute user? What other options/flags are there?
   - different "workspaces" for x-server? cmd + f1,f2,f3...?
+  - Ansible server setup (https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-automate-initial-server-setup-on-ubuntu-18-04)
