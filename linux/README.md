@@ -62,9 +62,6 @@ With `useradd` we don't need `-a (--append)` since the user is not present and t
 
 `groups userName` get a list of all groups a specific user belongs to, provide the username to the groups command as an argument.
 
-## TODO difference between having `sudo` as secondary group vs sudoers???
- * sudoers???
-
 ## Super User / Root
  * The simplest and most straightforward method of obtaining root privileges is to directly log into your server as the root user.
    Logging in directly as root is usually not recommended, because it is easy to begin using the system for non-administrative tasks, which is dangerous.
@@ -118,6 +115,17 @@ An example `/etc/sudoers` file
  * The second "ALL" indicates that the root user can run commands as all users.
  * The third "ALL" indicates that the root user can run commands as all groups.
  * The last "ALL" indicates these rules apply to all commands.
+
+### Ports, External Incoming Requests and Stuff
+Linux systems/servers does not have a mechanism enabled by default which blocks incoming TCP requests (for instance a firewall is not installed and enabled by default).
+
+Which means, the operating system receives the incoming requests and looks if any programs or services are installed which are LISTENING on the port of the incoming request. If yes, then the request is forwarded to that service and the service can process and send a response back.
+
+Which also means many different services can be accessed EXTERNALLY IF they are LISTENING also for external request. For example "listening on 0.0.0.0:5000 (or :::5000)" means AFAIK, a service/program is listening (and will accept that request / the OS will forward that request to this service) for requests which can come from ANY IP over the internet and the port should be 5000. If we have a Node application which listens on 0.0.0.0:5000, we could access that app directly from the outside world by calling the ip/domain name of the server and the port.
+
+Most such applications which listen on different tcp ports generally only listen on certain ports for 127.0.0.1. So only requests which come from the same machhine will be forwarded and processed by that service. But some services also directly listen on 0.0.0.0. That's why it is a good idea to enable a firewall, for cases when the user is not aware that a program also listens for external requests.
+
+This is also the reason many projects include a "reverse proxy" (apache or nging) listening on port 80 and 443, which then redirects that request to a service which listens ONLY for local requests on 127.0.0.1 (meaning sent by the current machine) on a different port. A Http server is much more configurable and powerful than just making the service (for example a node app) listen on 0.0.0.0. Same concept for load balancing and so on.
 
 
 ## Firewall

@@ -68,7 +68,13 @@ By default, the docker command can only be run the root user or by a user in the
  * Allow HTTP connections: `sudo ufw allow http` (`sudo ufw allow 80`)
  * Allow HTTPS connections: `sudo ufw allow https` (`sudo ufw allow 443`)
 
+### 10. ZSH and other config stuff
+ * TODO
 
+### Nginx as a reverse proxy and Let's Encrypt
+
+### Jenkins
 
 ## TODOs
+ * ZSH and other config stuff
  * Ansible playbook for this
