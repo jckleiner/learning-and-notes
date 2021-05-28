@@ -125,7 +125,8 @@ Which also means many different services can be accessed EXTERNALLY IF they are 
 
 Most such applications which listen on different tcp ports generally only listen on certain ports for 127.0.0.1. So only requests which come from the same machhine will be forwarded and processed by that service. But some services also directly listen on 0.0.0.0. That's why it is a good idea to enable a firewall, for cases when the user is not aware that a program also listens for external requests.
 
-This is also the reason many projects include a "reverse proxy" (apache or nging) listening on port 80 and 443, which then redirects that request to a service which listens ONLY for local requests on 127.0.0.1 (meaning sent by the current machine) on a different port. A Http server is much more configurable and powerful than just making the service (for example a node app) listen on 0.0.0.0. Same concept for load balancing and so on.
+This is also the reason many projects include a "reverse proxy" (apache or nging) listening on port 80 and 443, which then redirects that request to a service which listens ONLY for local requests on 127.0.0.1 (meaning sent by the current machine) on a different port. A Http server is much more configurable and powerful than just making the service (for example a node app or a docker container) listen on 0.0.0.0. 
+Same concept for load balancing and so on. Also a http server will handle encrypted requests, it will decrypt them and forward them to each service.
 
 
 ## Firewall

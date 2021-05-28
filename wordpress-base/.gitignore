@@ -1,0 +1,6 @@
+# Docker volumes
+database_data
+html
+
+# Environmen variables for docker-compose
+#.env
