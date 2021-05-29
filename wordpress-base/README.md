@@ -36,6 +36,18 @@ This process also migrates the DB users and all other (Media, etc.) settings:
  * ... and retain this many scheduled backups: 4, meaning that it will always keep only the last 4 backups, the rest will be deleted
  * You can also setup a cloud provider. Your backup files will be automatically uploaded there
 
+## Optimization
+ * https://developers.google.com/speed/pagespeed/insights
+ * https://gtmetrix.com/
+
+ 1. Optimize Images: ShortPixel (give unused email) (or Optimole), lossy, add webp versions
+ 2. Hummingbird:
+    * Gzip code for Ngingx copy paste
+ 2. Cache: WP Fastest Cache
+    * Settings -> Permalink -> choose any other than the default
+    * Plugin Settings -> select all -> save and then clear cache
+ 3. 
+
 ## TODOs
 
  * Stratum 20 widgets, happy addons

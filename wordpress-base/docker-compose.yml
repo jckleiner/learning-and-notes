@@ -22,7 +22,8 @@ services:
       - ./html:/var/www/html
       - ./custom-settings.ini:/usr/local/etc/php/conf.d/custom-settings.ini
     ports:
-      - "8000:80"
+      #- "8000:80" Equivalent to -p 0.0.0.0:8000:80, which listens to ALL incoming requests and docker even bypasses UFW...
+      - "127.0.0.1:8000:80" # Therefore listen only on localhost
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306

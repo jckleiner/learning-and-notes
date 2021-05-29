@@ -8,7 +8,7 @@
  * Install English language packages: `sudo apt-get install language-pack-en language-pack-en-base manpages`
  * Regenerating the supported locale list: `sudo dpkg-reconfigure locales` choose `en_US.UTF-8`
  * Change the current default locale: `sudo update-locale LANG=en_US.UTF-8 LANGUAGE= LC_MESSAGES= LC_COLLATE= LC_CTYPE=`
- * Set bashrc or zshrc profile: 
+ * Set bashrc or zshrc profile (for root): 
   ```
     echo "export LANGUAGE=en_US.UTF-8
     export LANG=en_US.UTF-8
@@ -36,7 +36,6 @@ TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
  * Make sure service is running: `sudo ufw status verbose`
 
 ### 6. Install Docker
- * `sudo apt install do`
  * `sudo apt install apt-transport-https ca-certificates curl software-properties-common`
  * `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
  * `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"`
@@ -44,6 +43,7 @@ TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
  * Make sure you are about to install from the Docker repo instead of the default Ubuntu repo: `apt-cache policy docker-ce`. The output should have the URLs ` https://download.docker.com/linux/ubuntu`. Notice that docker-ce is not installed, but the candidate for installation is from the Docker repository for Ubuntu 18.04 (bionic). 
  * Finally, install Docker: `sudo apt install docker-ce`
  * Docker should now be installed, the daemon started, and the process enabled to start on boot. Check that it’s running: `sudo systemctl status docker`
+ * Test: `docker run hello-world`
 
 By default, the docker command can only be run the root user or by a user in the docker group, which is automatically created during Docker’s installation process. If you attempt to run the docker command without prefixing it with sudo or without being in the docker group, you’ll get an output like this:
 
@@ -62,7 +62,7 @@ By default, the docker command can only be run the root user or by a user in the
 
 ### 8. Pull the project repository and start the application/configuration
  * We need git to pull our repository: `sudo apt install git`
- * Pull repo and start app
+ * Pull repo using the newly created user, make sure you are in that users home directory and start app
 
 ### 9. Enable Firewall Ports when http and https service is setup
  * Allow HTTP connections: `sudo ufw allow http` (`sudo ufw allow 80`)
@@ -76,5 +76,6 @@ By default, the docker command can only be run the root user or by a user in the
 ### Jenkins
 
 ## TODOs
+ * Wasnt firewall active when the container on 8000 started?
  * ZSH and other config stuff
  * Ansible playbook for this
