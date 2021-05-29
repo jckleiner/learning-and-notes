@@ -23,10 +23,10 @@
  * Set password for user: `sudo passwd <USERNAME>`
 
 ### 3. SSH configuration
-TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO 
+TODO TODO TODO TODO 
  * disable root login with ssh
- * can only login with newly created user with ssh
- * password vs public key
+ * should only be able login with newly created user with ssh
+ * password and public key
 
 ### 4. Install and configure a Firewall (UFW)
  * `sudo apt install ufw`
@@ -71,11 +71,53 @@ By default, the docker command can only be run the root user or by a user in the
 ### 10. ZSH and other config stuff
  * TODO
 
-### Nginx as a reverse proxy and Let's Encrypt
+### 11. Nginx as a reverse proxy and Let's Encrypt
+ * `sudo apt install nginx`
+ * Firewall (80 and 443): `sudo ufw allow 'Nginx Full'`
+ * `sudo ufw status`
+ * Check: `systemctl status nginx` should say running and enabled
+
+ * `sudo nano /etc/nginx/sites-available/default`
+
+        # increase the default upload limit (1MB)
+        client_max_body_size 250M;
+
+        server_name yourdomain.com www.yourdomain.com;
+
+        location / {
+            proxy_pass http://localhost:5000; #whatever port your app runs on
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+
+ * `sudo nginx -t`
+ * `sudo add-apt-repository ppa:certbot/certbot`
+ * Change your A registry if necessary, make sure the domain works and everything is setup and works with http
+ * 
+        sudo add-apt-repository ppa:certbot/certbot
+        sudo apt-get update
+        sudo apt-get install python-certbot-nginx
+        sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+        # Only valid for 90 days, test the renewal process with
+        certbot renew --dry-run
+
+  * Automate renew: TODO
+
 
 ### Jenkins
+TODO
+ * Jenkins for health check -> main page, check if 200
 
 ## TODOs
+ * Automate Certification Renewal
+ * Privacy Page
+ * SSH configuration, disable root etc.
+ * Give credentials and everything
+ * Nginx gzip
  * Wasnt firewall active when the container on 8000 started?
  * ZSH and other config stuff
  * Ansible playbook for this
