@@ -14,6 +14,9 @@
  * WP Mail SMTP Plugin
  * WP Fastest Cache
  * ShortPixel: Image compression
+ * Limit Login Attempts Reloaded
+ * WPS Hide Login
+ * Disable Search
 
 ### WP redirects localhost to https localhost OR siteurl/wp-admin does not load css
 This happened because I changed 'siteUrl', 'home', 'site title' and 'tagline' in the WP settings page.
@@ -60,6 +63,14 @@ This process also migrates the DB users and all other (Media, etc.) settings:
 ### E-Mail Server
  * WP Mail SMTP Plugin and you need to give an SMTP server
 
+### WP security best practices
+ * Don't have a user called 'admin'
+ * Limit Login Attempts Reloaded: Settings >> GDPR compliance check
+ * WPS Hide Login: changes the default login URLs to something custom
+ * (Plugin) Disable Search: Disables search bar on a 404 page, from which different things can be accessed (posts etc.) which we sometimes don't want
+ * Delete inactive users, unused plugins and themes.
+ * Do regular updates.
+
 ### Optimization
  * https://developers.google.com/speed/pagespeed/insights
  * https://gtmetrix.com/
@@ -69,26 +80,35 @@ This process also migrates the DB users and all other (Media, etc.) settings:
     * Settings -> Permalink -> choose any other than the default
     * Plugin Settings -> select all -> save and then clear cache
 
+
 ### Privacy page impressum, datenschutz etc.
 TODO
 
 ### Migrate prod site (with HTTPS) to localhost
 TODO
 
-### WP security best practices
-TODO
 
 ### SEO / meta tags and stuff
 TODO
+
+### Certificate with a plugin
+TODO
+ * Plugin: Really Simple SSL, configures everything, you only need to provide a certificate
+ * What does it do exactly? Nginx config? How to use it with lets encrypt certs?
+
+### Multi language support?
+TODO
+ * DE/EN
+
 ## TODOs
 
  * Visitor statistics
  * Stratum 20 widgets, happy addons
  * Starter Themes - braninstorm force
  * Video Background
+ * Free Sticky Header
  * fix background image for mobile and tablet
  * shape divider
  * fade in effects?
  * Plugin: Smash Balloon Instagram Feed, user needs to login to insta and then connect, how long will it last? Not sure
  * Auto updates wordpress disable or is it safe?
- * DE/EN

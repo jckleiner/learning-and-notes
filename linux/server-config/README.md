@@ -112,6 +112,10 @@ By default, the docker command can only be run the root user or by a user in the
 TODO
  * Jenkins for health check -> main page, check if 200
 
+### Certificates
+The default location to install certificates is `/etc/ssl/certs`, for the key files (server.key) it is `/etc/ssl/private`. This enables multiple services to use the same certificate without overly complicated file permissions.
+All generated keys and issued certificates from Certbot can be found in `/etc/letsencrypt/live/$domain` , where `$domain` is the certificate name
+
 ## TODOs
  * Automate Certification Renewal
  * Privacy Page
