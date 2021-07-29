@@ -11,6 +11,9 @@ Word preferences >> Edit >> Insert/Paste picture as >> Tight
 ### Shortcuts
 Tools >> Customize Keybord
 
+### Get rid of language problems
+Select all >> Tools >> Language >> English + deselect "Do not check ..."
+
 #### Save as template
  * Create a blank document >> customize it as you wish >> save as template
  * File >> new from template
