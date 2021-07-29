@@ -4,7 +4,19 @@
  * `sudo apt update && sudo apt upgrade`
 
 ### 1. Change system language (if needed)
- * `man usermod` -> if not English then change language
+
+ * `cat /etc/default/locale` should give `LANG="en_US.UTF-8"`
+ * If not: `sudo apt-get install -y language-pack-en && sudo update-locale LANG=en_US.UTF-8`
+ * and then logout and login again to your SSH session. This will reload the locale configuration for your session.
+   Run `cat /etc/default/locale` again. Verify you see only the single line `LANG="en_US.UTF-8"`.
+   If you see an additional line `LC_ALL=en_US.UTF-8`, then remove the entry for `LC_ALL` from `/etc/default/locale` and logout and then log back in once more.
+ * `sudo systemctl show-environment` and ensure you see `LANG=en_US.UTF-8` in the output.
+   If you don’t see this, do `sudo systemctl set-environment LANG=en_US.UTF-8` and run the above `sudo systemctl show-environment` again and confirm you see `LANG=en_US.UTF-8` in the output.
+
+  * TODO: previous steps doesnt change man and apt languages, also what happens for a new user?
+
+<!-- OLD -->
+ <!-- * `man usermod` -> if not English then change language
  * Install English language packages: `sudo apt-get install language-pack-en language-pack-en-base manpages`
  * Regenerating the supported locale list: `sudo dpkg-reconfigure locales` choose `en_US.UTF-8`
  * Change the current default locale: `sudo update-locale LANG=en_US.UTF-8 LANGUAGE= LC_MESSAGES= LC_COLLATE= LC_CTYPE=`
@@ -15,11 +27,11 @@
     export LC_ALL=en_US.UTF-8">>~/.bash_profile
   ```
  * `sudo reboot`
- * Run `locale` to check your current locale.
+ * Run `locale` to check your current locale. -->
 
 ### 2. Create a new user with sudo privileges
  * Create a new user with a home directory and sudo privileges:  `useradd -m -G sudo -s /bin/bash <USERNAME>`
- * Add sudo privileges to an existing user: `usermod -aG sudo <USERNAME>`
+ * (alternative) Add sudo privileges to an existing user: `usermod -aG sudo <USERNAME>`
  * Set password for user: `sudo passwd <USERNAME>`
 
 ### 3. SSH configuration
@@ -35,15 +47,16 @@ TODO TODO TODO TODO
  * Start service and enable on system startup: `sudo ufw enable`
  * Make sure service is running: `sudo ufw status verbose`
 
-### 6. Install Docker
+### 6. Install Docker (Ubuntu)
+ * Test if docker is already installed: `docker run hello-world`
  * `sudo apt install apt-transport-https ca-certificates curl software-properties-common`
  * `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
  * `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"`
  * `sudo apt update`
- * Make sure you are about to install from the Docker repo instead of the default Ubuntu repo: `apt-cache policy docker-ce`. The output should have the URLs ` https://download.docker.com/linux/ubuntu`. Notice that docker-ce is not installed, but the candidate for installation is from the Docker repository for Ubuntu 18.04 (bionic). 
- * Finally, install Docker: `sudo apt install docker-ce`
+ * `apt-cache policy docker-ce`: Make sure you are about to install from the Docker repo instead of the default Ubuntu repo. 
+   The output should have the URLs ` https://download.docker.com/linux/ubuntu`. Notice that docker-ce is not installed, but the candidate for installation is from the Docker repository for Ubuntu 18.04 (bionic). 
+ * Finally, install Docker: `sudo apt install docker-ce -y`
  * Docker should now be installed, the daemon started, and the process enabled to start on boot. Check that it’s running: `sudo systemctl status docker`
- * Test: `docker run hello-world`
 
 By default, the docker command can only be run the root user or by a user in the docker group, which is automatically created during Docker’s installation process. If you attempt to run the docker command without prefixing it with sudo or without being in the docker group, you’ll get an output like this:
 
@@ -52,10 +65,12 @@ By default, the docker command can only be run the root user or by a user in the
     See 'docker run --help'.
 
  * If you want to avoid typing sudo whenever you run the docker command, add your username to the docker group: `sudo usermod -aG docker <USERNAME>`
- * To apply the new group membership, log out of the server and back in, or type the following: `su - <USERNAME>`
+ * To apply the new group membership, logout and in to the user again, or type the following: `su - <USERNAME>`
  * Confirm that your user is now added to the docker group by typing: `id -nG [<USERNAME>]`
+ * Test: `docker run hello-world`
 
 ### 7. Install Docker Compose
+ * Check if already installed: `docker-compose --version`
  * `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
  * `sudo chmod +x /usr/local/bin/docker-compose`
  * `docker-compose --version`
@@ -117,6 +132,9 @@ The default location to install certificates is `/etc/ssl/certs`, for the key fi
 All generated keys and issued certificates from Certbot can be found in `/etc/letsencrypt/live/$domain` , where `$domain` is the certificate name
 
 ## TODOs
+ * how-does-apt-get-really-work: https://unix.stackexchange.com/questions/377736/how-does-apt-get-really-work
+ * Don't ask user for sudo password? Is it a good idea?
+ * TCP and UDP ports, can apps use both ports with each Protocol at the same time? When is a port a UDP port and when is it a TCP port?
  * Automate Certification Renewal
  * Privacy Page
  * SSH configuration, disable root etc.

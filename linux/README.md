@@ -13,7 +13,12 @@ The general syntax for the useradd command is as follows:
 
     useradd [OPTIONS] USERNAME
 
-    useradd -m -G sudo -s /usr/bin/zsh userName 
+    # create new user with: home folder, sudo privileges and zsh as their default shell
+    useradd -m -G sudo -s /usr/bin/zsh userName
+
+    # create new user with sudo privileges and a password in one line
+    PASS="123456"
+    useradd -m -G sudo -p $(openssl passwd -crypt $PASS) userName
 
 Only root or users with sudo privileges can use the useradd command to create new user accounts.
 
@@ -74,6 +79,8 @@ With `useradd` we don't need `-a (--append)` since the user is not present and t
 
 ## Sudoers File and the sudo group
 Adding a user to the `sudo` group gives them sudo privileges because it is defined in the sudoers file `/etc/sudoers` (Ubuntu).
+But the user will still be asked for a password before he can execute the command with sudo privileges.
+Use `sudo visudo` and add this line: `YOUR_USERNAME_HERE ALL=(ALL) NOPASSWD: ALL`. This way the user won't have to enter a password when using sudo.
 We could also give different permissions to a specific user but that's generally not a good idea.
 
  * This file MUST be edited with the `visudo` command as root. Because improper syntax in the `/etc/sudoers` file can leave you with a broken system where it is impossible to obtain elevated privileges, it is important to use the `visudo` command to edit the file. The `visudo` command opens a text editor like normal, but it validates the syntax of the file upon saving. This prevents configuration errors from blocking sudo operations, which may be your only way of obtaining root privileges.
@@ -154,6 +161,12 @@ Different applications can register their profiles with `UFW` upon installation.
 
 
 ### TODOs
+  - rel noopener (how can a malicious site use Window.opener?) nofollow noreferrer
+  - TURN/STUN server?
+  - PPAs?
+  - Free domain names? "es gibt ja freie .tk .ml .gq und mehr top level domains"
+  - DNS check: `https://www.whatsmydns.net/#NS/<yourDomain.com>`
+  - how-does-apt-get-really-work: https://unix.stackexchange.com/questions/377736/how-does-apt-get-really-work
   - `su` means super user or switch user/substitute user? What other options/flags are there?
   - different "workspaces" for x-server? cmd + f1,f2,f3...?
   - Ansible server setup (https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-automate-initial-server-setup-on-ubuntu-18-04)

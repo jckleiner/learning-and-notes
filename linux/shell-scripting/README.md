@@ -92,10 +92,57 @@ done
 For variables and functions to be evaluated inside strings, use `"..."` and NOT `'...'`
 **TODO** sure?
 
+For multiple commands on the same line, make sure they all end with `;`
+  
+    # This WON'T work
+    if ! [ -f ~/folder/file ]; then echo "file exists" fi
+    
+    # Correct
+    if ! [ -f ~/folder/file ]; then echo "file exists"; fi
+
+**Script execution context - User of the parent process**
+
+    #!/bin/bash
+    sudo su
+    ls /root # permission denied
+
+The commands in a script execute one by one, independently. The Script itself as the parent of all commands in the script, is another independent process and the su command does not and can not change it to root: the su command creates a new process with root privileges.
+After that su command completes, the parent process, still running as the same user, will execute the rest of the script.
+
+Starting a script with `sudo` changes the user of that process to `root` (`root` has `/bin/sh` as a shell in this example):
+See https://stackoverflow.com/questions/3522341/identify-user-in-a-bash-script-called-by-sudo
+
+    ./test.sh
+
+      whoami: kleiner
+      echo $SHELL: /bin/zsh
+      echo $USER: kleiner
+      sudo whoami: root
+      sudo echo $SHELL: /bin/zsh
+      sudo echo $USER: kleiner
+
+    sudo ./test.sh
+
+      whoami: root
+      echo $SHELL: /bin/sh
+      echo $USER: root
+      sudo whoami: root
+      sudo echo $SHELL: /bin/sh
+      sudo echo $USER: root
+
+
+**TODO Script execution context - PWD of the parent process**
+
+Again, , when a script has a command with a relative path i.e. `source .log-colors.sh` and when this script will be called from a different directory, the file will not be found.
+
+    source .log-colors.sh
+    # source $HOME/config/dotfiles/zsh/.log-colors.sh
+
 </details>
 <br/>
 
 **TODO**
+  * [[ ]] vs [ ] --- https://www.shell-tips.com/bash/if-statement/
   * Best practice for shebang sh?
   * Zefuk is AD?
   * What does SHIFT + CMD + H do in Iterm?
