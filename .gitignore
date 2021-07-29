@@ -49,6 +49,7 @@ fabric.properties
 
 # Word temporary
 ~$*.doc*
+~$*.dot*
 
 # Visio autosave temporary files
 *.~vsd*
