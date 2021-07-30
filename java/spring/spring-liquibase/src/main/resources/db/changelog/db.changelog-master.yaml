@@ -1,0 +1,8 @@
+# This yaml file references all changes that are supposed to be applied to the database.
+# See also: https://docs.liquibase.com/change-types/home.html
+# 
+databaseChangeLog:
+  - include:
+      file: migrations/001-init.yaml
+
+# ...
