@@ -1,5 +1,8 @@
 package com.learning.springsecurity;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity // tells spring that this is a web security configuration
 public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	DataSource dataSource;
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -29,16 +35,42 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 		  because it will match ALL the requests and the other matchers will be ignored
 		*/
 		http.authorizeRequests()
-				.antMatchers("/admin").hasRole("ADMIN")
-				.antMatchers("/user").hasAnyRole("USER", "ADMIN")
+				.antMatchers("/admin").hasRole("BOSS")
+				.antMatchers("/user").hasAnyRole("FIGHTER", "BOSS")
 				.antMatchers("/**").permitAll()
 				.and()
 				.formLogin(); // enables form login
 	}
 
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// we can now configure the AuthenticationManagerBuilder here with our settings
+
+		auth.jdbcAuthentication()
+				.dataSource(dataSource)
+				.usersByUsernameQuery("select user_name,pass,active " +
+						"from MY_USERS " +
+						"where user_name = ?")
+				.authoritiesByUsernameQuery("select user_name,role " +
+						"from MY_ROLES " +
+						"where user_name = ?");
+
+
+
+		/*
+		// for an H2 database
+		auth.jdbcAuthentication()
+				.dataSource(dataSource)
+				.withDefaultSchema()
+				.withUser("user")
+				.password("123")
+				.roles("USER")
+				.and()
+				.withUser("admin")
+				.password("123")
+				.roles("ADMIN");
+
 		auth.inMemoryAuthentication()
 				.withUser("user")
 				.password("123")
@@ -47,10 +79,8 @@ public class MySecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.withUser("admin")
 				.password("123")
 				.roles("ADMIN");
+		 */
 	}
-
-
-
 
 
 	@Bean
