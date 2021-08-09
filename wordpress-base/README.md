@@ -68,6 +68,12 @@ UpdraftPlus WordPress Backup Plugin
  * WP Forms -> you can give more than one email comma separated.
  * TODO: Sometimes Emails won't arrive? An automatic check regularly???
 
+ * After a while it stops sending Emails. The "WP Fastest Cache" Plugin might have been the issue.
+    Sending a test mail with WP Mail Stmp plugin showed that I had no SPF-Rule and no DMARC record configured.
+    https://wpmailsmtp.com/how-to-create-dmarc-record/ - Shows how to configure a DMARC record
+    https://www.strato.de/faq/hosting/dmarc-bei-strato-aktivieren/ - to add an SPF-Rule
+    After these changes, the WP Mail Stmp plugin test email did not show any errors
+
 ### WP security best practices
  * Don't have a user called 'admin'
  * Limit Login Attempts Reloaded: Settings >> GDPR compliance check

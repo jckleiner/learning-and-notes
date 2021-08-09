@@ -160,6 +160,12 @@ Allowing SSH Connections: `sudo ufw allow ssh` same as `sudo ufw allow 22` (allo
 Different applications can register their profiles with `UFW` upon installation. These profiles allow UFW to manage these applications by name. OpenSSH, the service allowing us to connect to our server now, has a profile registered with UFW.
 
 
+## Processes
+
+What scopes can shell variables have?
+
+https://unix.stackexchange.com/questions/27555/what-scopes-can-shell-variables-have
+
 ### TODOs
   - rel noopener (how can a malicious site use Window.opener?) nofollow noreferrer
   - TURN/STUN server?
