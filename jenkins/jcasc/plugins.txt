@@ -1,4 +1,3 @@
-ant:latest
 antisamy-markup-formatter:latest
 authorize-project:latest
 build-timeout:latest
@@ -19,3 +18,5 @@ ssh-slaves:latest
 timestamper:latest
 workflow-aggregator:latest
 ws-cleanup:latest
+maven:latest
+ansible:latest
