@@ -47,7 +47,7 @@ TODO TODO TODO TODO
  * Start service and enable on system startup: `sudo ufw enable`
  * Make sure service is running: `sudo ufw status verbose`
 
-### 6. Install Docker (Ubuntu)
+### 5. Install Docker (Ubuntu)
  * Test if docker is already installed: `docker run hello-world`
  * `sudo apt install apt-transport-https ca-certificates curl software-properties-common`
  * `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
@@ -69,24 +69,24 @@ By default, the docker command can only be run the root user or by a user in the
  * Confirm that your user is now added to the docker group by typing: `id -nG [<USERNAME>]`
  * Test: `docker run hello-world`
 
-### 7. Install Docker Compose
+### 6. Install Docker Compose
  * Check if already installed: `docker-compose --version`
  * `sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
  * `sudo chmod +x /usr/local/bin/docker-compose`
  * `docker-compose --version`
 
-### 8. Pull the project repository and start the application/configuration
+### 7. Pull the project repository and start the application/configuration
  * We need git to pull our repository: `sudo apt install git`
  * Pull repo using the newly created user, make sure you are in that users home directory and start app
 
-### 9. Enable Firewall Ports when http and https service is setup
+### 8. Enable Firewall Ports when http and https service is setup
  * Allow HTTP connections: `sudo ufw allow http` (`sudo ufw allow 80`)
  * Allow HTTPS connections: `sudo ufw allow https` (`sudo ufw allow 443`)
 
-### 10. ZSH and other config stuff
+### 9. ZSH and other config stuff
  * TODO
 
-### 11. Nginx as a reverse proxy and Let's Encrypt
+### 10. Nginx as a reverse proxy and Let's Encrypt
  * `sudo apt install nginx`
  * Firewall (80 and 443): `sudo ufw allow 'Nginx Full'`
  * `sudo ufw status`
