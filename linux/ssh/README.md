@@ -1,6 +1,14 @@
 ## SSH
 
-#### SSH keepalive
+
+### ssh_config vs sshd_config
+
+The `sshd_config` is the ssh daemon (or ssh server process) configuration file. As you've already stated, this is the file you'll need to modify to change for example the server port, disable login with password, disable root login etc.
+
+Whereas, the `ssh_config` file is the ssh client configuration file. The client configuration file only has bearing on when you use the ssh command to connect to another ssh host. So, in this case, you don't need to modify it. It will be other client machines connecting to your server.
+
+
+### SSH keepalive
 
 * `ServerAliveInterval`: number of seconds that the client will wait before sending a null packet to the server (to keep the connection alive).
 * `ClientAliveInterval`: number of seconds that the server will wait before sending a null packet to the client (to keep the connection alive).

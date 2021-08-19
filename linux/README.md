@@ -77,7 +77,9 @@ With `useradd` we don't need `-a (--append)` since the user is not present and t
 
 
 
-## Sudoers File and the sudo group
+## Sudoers File and the sudo group - disable password promt when using sudo 
+  * TLDR: Make changes to `/etc/sudoers.d` and NOT to `/etc/sudoers` itself. See below for more information.
+
 Adding a user to the `sudo` group gives them sudo privileges because it is defined in the sudoers file `/etc/sudoers` (Ubuntu).
 But the user will still be asked for a password before he can execute the command with sudo privileges.
 Use `sudo visudo` and add this line: `YOUR_USERNAME_HERE ALL=(ALL) NOPASSWD: ALL`. This way the user won't have to enter a password when using sudo.
@@ -112,6 +114,7 @@ An example `/etc/sudoers` file
   # Allow members of group sudo to execute any command
   %sudo   ALL=(ALL:ALL) ALL
 
+  # This is NOT a comment. This includes the sudoers config in this file. Very similar to an apache config extension.
   #includedir /etc/sudoers.d
 ```
 (For more: https://www.digitalocean.com/community/tutorials/how-to-edit-the-sudoers-file)
@@ -122,6 +125,24 @@ An example `/etc/sudoers` file
  * The second "ALL" indicates that the root user can run commands as all users.
  * The third "ALL" indicates that the root user can run commands as all groups.
  * The last "ALL" indicates these rules apply to all commands.
+
+### Why use /etc/sudoers.d/
+
+Typically `/etc/sudoers` is under control of your distribution's package manager. If you have made changes to that file and the package manager wants to upgrade it, you will have to manually inspect the changes and approve how they are merged into the new version. By placing your local changes into a file in the `/etc/sudoers.d/` directory, you avoid this manual step and upgrades can proceed automatically.
+When does sudo ignore a file in `/etc/sudoers`?
+
+If your `/etc/sudoers` file contains the line:
+
+    #includedir /etc/sudoers.d
+
+then sudo will read files in the directory `/etc/sudoers.d`.
+
+Exceptions are:
+
+    Files whose names end in ~
+    Files whose names contain a . character
+
+This is done (a) for the convenience of package managers and also (b) so that backup files from editors are ignored.
 
 ### Ports, External Incoming Requests and Stuff
 Linux systems/servers does not have a mechanism enabled by default which blocks incoming TCP requests (for instance a firewall is not installed and enabled by default).

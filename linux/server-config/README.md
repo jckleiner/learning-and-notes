@@ -33,13 +33,36 @@
  * Create a new user with a home directory and sudo privileges:  `useradd -m -G sudo -s /bin/bash <USERNAME>`
  * (alternative) Add sudo privileges to an existing user: `usermod -aG sudo <USERNAME>`
  * Set password for user: `sudo passwd <USERNAME>`
+        
+        # Create the user ansible with a home directory
+        useradd -m -G sudo -s /bin/bash ansible
+
+        # Set a password
+        passwd ansible
+
+        # Switch to user
+        su - ansible
+
+        # Make sure the password is set correclty
+        sudo ls
+
+        # Create the .ssh folder with the correct permissions
+        cd && mkdir .ssh && chmod 755 .ssh
+
+        # Create authorized_keys file and paste the ssh keys inside
+        vim .ssh/authorized_keys
+
+        # Change the permissions of the authorized_keys file
+        chmod 644 .ssh/authorized_keys
+
 
 ### 3. SSH configuration
-TODO TODO TODO TODO 
- * disable root login with ssh
- * should only be able login with newly created user with ssh
- * password and public key
-
+TODO: any other best practices?
+`sudo nano /etc/ssh/sshd_config`
+ * Disable root login with ssh: `PermitRootLogin no`
+ * Disable password auth: `PasswordAuthentication no`
+ * Restart sshd
+ 
 ### 4. Install and configure a Firewall (UFW)
  * `sudo apt install ufw`
  * Make sure ufw is disabled, otherwise if the ssh connection breaks, you won't be able to log back in: `service --status-all`
