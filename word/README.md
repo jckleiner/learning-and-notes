@@ -11,6 +11,8 @@ Word preferences >> Edit >> Insert/Paste picture as >> Tight
 ### Shortcuts
 Tools >> Customize Keybord
 
+### How Do You Stop Microsoft Word from Automatically Selecting More Text than Desired?
+Word >> Preferences >> Edit >> Disable "select whole word when selecting text"
 ### Get rid of language problems
 Select all >> Tools >> Language >> English + deselect "Do not check ..."
 
