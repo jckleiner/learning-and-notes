@@ -8,8 +8,13 @@
   See the issue: https://github.com/vuejs/vetur/issues/2344
  -->
 <template>
+  <!-- With Vue 3, you can have multiple root elements in a template -->
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld :msg="bla"/>
+  <!--
+    Component names can also be written like this:
+    <HelloWorld :msg="This is a message"/>
+  -->
+  <hello-world :msg="bla"/>
 </template>
 
 <script lang="ts">
@@ -22,7 +27,15 @@ import HelloWorld from './components/HelloWorld.vue'
   }
 })
 export default class App extends Vue {
-  bla = true
+  bla = 1234
+
+  beforeCreate () {
+    console.log('beforeCreate', this.bla)
+  }
+
+  created () {
+    console.log('created', this.bla)
+  }
 }
 </script>
 
