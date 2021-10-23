@@ -36,11 +36,15 @@ import { Options, Vue } from 'vue-class-component'
 
 @Options({
   props: {
-    msg: String
+    msg: Boolean
   }
 })
 export default class HelloWorld extends Vue {
-  msg!: string
+  msg!: boolean
+
+  get bla () {
+    return ''
+  }
 }
 </script>
 

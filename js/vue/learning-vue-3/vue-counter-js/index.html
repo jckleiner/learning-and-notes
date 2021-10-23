@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- development version, includes helpful console warnings -->
+  <script src="https://unpkg.com/vue@3.0.2"></script>
+</head>
+<body>
+
+  <h1>Vue Counter with JS</h1>
+
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis dignissimos fugiat aliquid unde assumenda, accusamus architecto nihil cupiditate tempore illo iure, voluptates perspiciatis corporis sequi veniam, totam incidunt placeat in?</p>
+
+  <div id="counter"></div>
+
+  <script>
+    const counterComponent = {
+      // Vue will inject (not replace) the counter component template to #counter
+      template: `
+        <div>Counter value: {{ counter }}</div>
+        <button v-on:click="increase">add 1</button>
+      `,
+
+      data () {
+        return {
+          counter: 1
+        }
+      },
+      methods: {
+        increase () {
+          this.counter += 1
+        }
+      }
+    }
+
+    Vue.createApp(counterComponent).mount('#counter')
+  </script>
+
+</body>
+</html>

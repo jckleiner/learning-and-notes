@@ -1,6 +1,15 @@
+<!--
+  Template Interpolation - prop validation only works when using
+    1. JS file with export default {...}
+    2. TS file with defineComponent in Vue 3 or Vue.extend in Vue 2
+  (See https://vuejs.github.io/vetur/guide/interpolation.html#prop-type-validation)
+
+  This means the props WILL NOT HAVE type-checking.
+  See the issue: https://github.com/vuejs/vetur/issues/2344
+ -->
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <HelloWorld :msg="bla"/>
 </template>
 
 <script lang="ts">
@@ -12,7 +21,9 @@ import HelloWorld from './components/HelloWorld.vue'
     HelloWorld
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  bla = true
+}
 </script>
 
 <style lang="scss">
