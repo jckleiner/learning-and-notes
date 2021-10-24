@@ -1,24 +1,21 @@
 # learning-vue-3
 
-## Project setup
-```
-npm install
-```
+### Vetur - template Interpolation (prop validation)
+Checking if prop type is correct and if it is present (when `required: true`). Only works when using:
+  1. JS file with export default {...}
+  2. TS file with defineComponent in Vue 3 or Vue.extend in Vue 2
+(See https://vuejs.github.io/vetur/guide/interpolation.html#prop-type-validation)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This means the props WILL NOT HAVE prop validation with Vue 3 and `vue-class-component`. Which is a bummer.
+The maintainer of Vetur added the issue to the `v0.36.0` milestone
+See the issue: https://github.com/vuejs/vetur/issues/2344
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Vue 3 with `vue-property-decorator` and `vue-class-component`
+Atm (24 October 2021), it seems like the class component is not greatly supported and therefore the propert decorator is also not greatly supported since it depends on the API which is provided by `vue-class-component`.
 
-### Lints and fixes files
-```
-npm run lint
-```
+> The best thing to do is to use the new vue 3.2 version [script setup](https://v3.vuejs.org/api/sfc-script-setup.html#basic-syntax) that is the best way to use vue with typescript.
+
+See issue: https://github.com/kaorun343/vue-property-decorator/issues/294
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
@@ -31,6 +28,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 * Passing props to childs
 * Other ways to pass data between components? Bus? (See bookmarks)
 * Slots?
+* Inject
 * Style Guide?
 * The proper way to force Vue to re-render components, and nextTick?
 * Common problems
