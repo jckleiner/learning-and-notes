@@ -1,10 +1,10 @@
 <!--
-  Template Interpolation - prop validation only works when using
+  Template Interpolation - prop validation (checking if prop type is correct and if it is present, if required) only works when using
     1. JS file with export default {...}
     2. TS file with defineComponent in Vue 3 or Vue.extend in Vue 2
   (See https://vuejs.github.io/vetur/guide/interpolation.html#prop-type-validation)
 
-  This means the props WILL NOT HAVE type-checking.
+  This means the props WILL NOT HAVE prop validation with Vue 3 and vue-class-component.
   See the issue: https://github.com/vuejs/vetur/issues/2344
  -->
 <template>
@@ -12,9 +12,10 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <!--
     Component names can also be written like this:
-    <HelloWorld :msg="This is a message"/>
+      <HelloWorld :msg="This is a message"/>
+    But the official documentation writes it kebab-case
   -->
-  <hello-world :msg="bla"/>
+  <hello-world />
 </template>
 
 <script lang="ts">
