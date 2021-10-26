@@ -18,6 +18,7 @@
   <script>
     const counterComponent = {
       // Vue will inject (not replace) the counter component template to #counter
+      // The alternative is to write the component html directly in html and only mount the "functionality"
       template: `
         <div>Counter value: {{ counter }}</div>
         <button v-on:click="increase">add 1</button>

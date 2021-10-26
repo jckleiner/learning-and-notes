@@ -1,5 +1,12 @@
 # learning-vue-3
 
+### Vue 3 with `vue-property-decorator` and `vue-class-component`
+Atm (24 October 2021), it seems like the class component is not greatly supported and therefore the propert decorator is also not fully working since it depends on the API which is provided by `vue-class-component`. And it is also not sure if `vue-class-component` will ever come to a point where it supports all features provided by Vue 3.
+
+> The best thing to do is to use the new vue 3.2 version [script setup](https://v3.vuejs.org/api/sfc-script-setup.html#basic-syntax) that is the best way to use vue with typescript.
+
+See issue: https://github.com/kaorun343/vue-property-decorator/issues/294
+
 ### Vetur - template Interpolation (prop validation)
 Checking if prop type is correct and if it is present (when `required: true`). Only works when using:
   1. JS file with export default {...}
@@ -10,12 +17,6 @@ This means the props WILL NOT HAVE prop validation with Vue 3 and `vue-class-com
 The maintainer of Vetur added the issue to the `v0.36.0` milestone
 See the issue: https://github.com/vuejs/vetur/issues/2344
 
-### Vue 3 with `vue-property-decorator` and `vue-class-component`
-Atm (24 October 2021), it seems like the class component is not greatly supported and therefore the propert decorator is also not greatly supported since it depends on the API which is provided by `vue-class-component`.
-
-> The best thing to do is to use the new vue 3.2 version [script setup](https://v3.vuejs.org/api/sfc-script-setup.html#basic-syntax) that is the best way to use vue with typescript.
-
-See issue: https://github.com/kaorun343/vue-property-decorator/issues/294
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
@@ -28,11 +29,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 * Passing props to childs
 * Other ways to pass data between components? Bus? (See bookmarks)
 * Slots?
+* Mounted vs onMounted?
 * Inject
 * Style Guide?
 * The proper way to force Vue to re-render components, and nextTick?
 * Common problems
 * More details about Vue lifecycle etc.
+* Same implementation for vue store like we did in the other project. Better TS support?
 
 ### New in Vue 3
 * Composition API
@@ -154,3 +157,61 @@ Dynamically rendering arbitrary HTML on your website (with `v-html`) can be very
 
 * JavaScript expressions can be used inside <b>all data bindings</b>. These expressions will be evaluated as JavaScript in the data scope of the current active instance. One restriction is that each binding can only contain one single expression, so the following will NOT work.
 * Directives are special attributes with the `v-` prefix. Directive attribute values are expected to be a single JavaScript expression (with the exception of `v-for` and `v-on`, which will be discussed later). A directive's job is to <b>reactively apply side effects</b> to the DOM when the value of its expression changes. 
+
+### Component Communication
+Vue.js allows component communication in the following ways:
+TODO
+  1. Parent to child communication (Using Props).
+  2. Child to parent communication (Using Events).
+  3. Communication between any component (Using Event Bus).
+  TODO: https://medium.com/weekly-webtips/communication-between-components-in-vuejs-b41d9e8be9c4
+  4. $root.emit vs CustomEventBut???
+  5. accessing child props from parent?
+
+### Props
+* All props form a `one-way-down binding` between the child property and the parent one: when the parent property updates, it will flow down to the child, but not the other way around. This prevents child components from accidentally mutating the parent's state. You should <b>not</b> attempt to mutate a prop inside a child component. Note that objects and arrays in JavaScript are passed by reference, so if the prop is an array or object, mutating the object or array itself inside the child component <b>WILL</b> affect parent state.
+* You need `v-bind` or `:` to tell Vue that the value we are passing is not a string:
+```html
+<!-- Even though `false` is static, we need v-bind to tell Vue that -->
+<!-- this is a JavaScript expression rather than a string.          -->
+<blog-post :is-published="false"></blog-post>
+<blog-post :likes="42"></blog-post>
+<blog-post :comment-ids="[234, 266, 273]"></blog-post>
+```
+* If you want to pass all the properties of an object as props
+```html
+<blog-post v-bind="post"></blog-post> is the same as
+<blog-post v-bind:id="post.id" v-bind:title="post.title"></blog-post>
+```
+* Props can be of any type (primitive types, object, array, function) and for all of them a default value can be provided (default object, default function etc.). You can also provide a `validator` function which returns a boolean indicating if the given prop is valid or not. If it returns `false`, a `warning` will be shown in the console.
+* Instance properties (e.g. `data`, `computed`, etc) will NOT be available inside `default` or `validator` functions, since they are invoked first.
+* Should props be kebab-case in html and if yes, why? Both works -> https://v3.vuejs.org/guide/component-basics.html#case-insensitivity
+
+### Non-Prop Attributes
+A component non-prop attribute is an attribute or event listener that is passed to a component, but does not have a corresponding property defined in props or emits. Common examples of this include `class`, `style`, and `id` attributes. You can access those attributes via $attrs property.
+
+* Attribute Inheritance: When a component returns a single root node, non-prop attributes will automatically be added to the root node's attributes. Same rule applies to the event listeners. This default behaviour can be disabled
+```html
+<!-- Date-picker component with a non-prop attribute -->
+<date-picker data-status="activated"></date-picker>
+
+<!-- Rendered date-picker component -->
+<div class="date-picker" data-status="activated">
+  <input type="datetime-local" />
+</div>
+
+```
+* Components with multiple roo nodes (multiple HTML elements) do not have an automatic attribute fallthrough behavior. If `$attrs` are not bound explicitly, a runtime warning will be issued.
+```html
+// No warnings, $attrs are passed to <main> element
+app.component('custom-layout', {
+  template: `
+    <header>...</header>
+    <main v-bind="$attrs">...</main>
+    <footer>...</footer>
+  `})
+```
+
+### Custom Events
+* Event names: Like components and props, event names provide an automatic case transformation. If you emit an event from the child component in camel case, you will be able to add a kebab-cased listener in the parent: `this.$emit('myEvent')` -> `@my-event="doSomething"`
+* TODO: https://v3.vuejs.org/guide/component-custom-events.html#defining-custom-events
