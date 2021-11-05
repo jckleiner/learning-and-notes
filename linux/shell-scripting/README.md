@@ -3,7 +3,8 @@
 ## Table of Contents
   1. [Coding Conventions](#coding-conventions)
   2. [Parsing Commandline Options With `getopts` / `getopt`](#parsing-commandline-options)
-  2. [Basics](#basics)
+  3. [Basics](#basics)
+  4. [Dollar Sign](#dollar-sign)
 
 <details id="coding-conventions">
 <summary><b>Coding Conventions</b></summary>
@@ -138,6 +139,13 @@ Again, , when a script has a command with a relative path i.e. `source .log-colo
     source .log-colors.sh
     # source $HOME/config/dotfiles/zsh/.log-colors.sh
 
+</details>
+<br/>
+
+<details id="dollar-sign">
+<summary><b>Dollar Sign</b></summary>
+<br/>
+ * TODO: https://stackoverflow.com/questions/5163144/what-are-the-special-dollar-sign-shell-variables 
 </details>
 <br/>
 

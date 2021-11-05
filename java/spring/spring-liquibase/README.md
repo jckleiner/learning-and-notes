@@ -1,7 +1,7 @@
 # Liquibase
 
-see https://reflectoring.io/database-migration-spring-boot-liquibase/
-
+* https://reflectoring.io/database-migration-spring-boot-liquibase/
+* https://blog.orbit.de/2014/10/20/liquibase-das-tool-fuer-agiles-database-deployment/
 
 
 Start a MariaDB container for testing purposes:
