@@ -54,4 +54,6 @@ fabric.properties
 # Visio autosave temporary files
 *.~vsd*
 
+.gradle
+
 .env
