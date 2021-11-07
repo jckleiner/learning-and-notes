@@ -8,6 +8,11 @@ These examples use `minifabric` to manage fabric networks.
     - Creates a channel called `mychannel` and adds all(?) the organizations to it?
     - Deploys the chaincode `simple` to all peers
 
+After the setup is done, `docker ps` should look more or lesse like this:
+```bash
+    TODO
+```
+
 ## Deploy your own chaincode (`chaincode-java`)
 See also https://www.youtube.com/watch?v=r108lkV7auk&list=PL0MZ85B_96CExhq0YdHLPS5cmSBvSmwyO&index=3
 
@@ -21,9 +26,63 @@ See also https://www.youtube.com/watch?v=r108lkV7auk&list=PL0MZ85B_96CExhq0YdHLP
 7. `minifab discover` ???
 8. `minifab blockquery`: displays the last block in the ledger. The explorer does not show the block info like this.
 
-### TODOs
-* Learn more about what `minifab install/approve/discover` etc. do exactly
+## Multi Network Demo
+See https://dilumbandara.medium.com/custom-hyperledger-fabric-network-with-minifabric-fd362ee34343
+
+### org1
+1. `cd multi-network-demo/org1 && minifab netup -e 7100 -o org1.example.com -i 2.2 -l node -s couchdb`
+2. `minifab create,join -c channel1`
+3. `minifab install,approve,commit -n simple -l node -v 1.0 -p '"init","a","200","b","300"'`
+
+### org3
+and install the chaincode using the following commands:
+
+```bash
+cd ../org3 && \
+minifab netup -e 7300 -o org3.example.com -i 2.2 -l node -s couchdb && \
+minifab create,join -c channel2 && \
+minifab install,approve,commit -n simple -l node -v 1.0 -p '"init","a","200","b","300"'
+```
+
+### org2
+`cd ../org2 && minifab netup -e 7200 -o org2.example.com -i 2.2 -l node -s couchdb`
+Now that network2 is running, we can add it to the 2 application channels. We need to do this one channel at a time using the details in the `JoinRequest_org2-example-com.json` file produced by Minifabric. We use the recently introduced `orgjoin` command to add new nodes. We’ll also generate the profile files as we need them to import orderers to org2 and join its peer to the 2 channels.
+
+```bash
+cd ../org1 && \
+cp ../org2/vars/JoinRequest_org2-example-com.json ./vars/NewOrgJoinRequest.json && \
+minifab orgjoin,profilegen && \
+cd ../org3 && \
+cp ../org2/vars/JoinRequest_org2-example-com.json ./vars/NewOrgJoinRequest.json && \
+minifab orgjoin,profilegen
+```
+
+```
+cd ../org2 && \
+cp ../org1/vars/profiles/endpoints.yaml vars && \
+minifab nodeimport,join -c channel1 && \
+cp ../org3/vars/profiles/endpoints.yaml vars && \
+minifab nodeimport,join -c channel2
+```
+Install the chaincode on Org2:
+```bash
+minifab install,approve -n simple -v 1.0 -p '"init","a","200","b","300"' -c channel1
+```
+
+`TODO` throws error: `The task includes an option with an undefined variable`
+
+```bash
+cd ../org1 && \
+minifab approve,discover,commit && \
+cd ../org3 && \
+minifab approve,discover,commit
+```
+
+## TODOs
 * How to create a new org in an existing network
-* `minifab up` vs `minifab netup` and what are the other steps?
 * How to bind 2 docker networks with different organizations in it?
+* Learn more about what `minifab install/approve/discover` etc. do exactly
+* `minifab up` vs `minifab netup` and what are the other steps?
 * Are organizations added to channels or peers? If an org is added, are all peers added automatically?
+* Setup `application-java`, an example of how to develop a client for interacting with the fabric network
+* Difference between `ChaincodeBase` and `ContractInterface`
