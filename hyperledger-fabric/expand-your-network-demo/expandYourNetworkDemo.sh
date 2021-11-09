@@ -34,6 +34,8 @@ echo " ----- 4 -----" && \
 cd ../mysite0 && \
 minifab approve,discover,commit && \
 
+# After this command, a new chaincode container for each of the peers of orgx has been created.
+
 echo " ----- 5 -----" && \
 
 # Discover and verify the chaincode on orgx
