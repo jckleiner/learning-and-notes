@@ -22,6 +22,7 @@
 		<module>movie-catalog-service</module>
 		<module>movie-info-service</module>
 		<module>ratings-data-service</module>
+		<module>discovery-server</module>
 		<module>model</module>
 	</modules>
 
@@ -30,10 +31,14 @@
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<spring-cloud.version>2020.0.4</spring-cloud.version>
 	</properties>
 
 	<!-- Inherited by all child modules -->
 	<dependencies>
+
 		<!-- Spring Boot Web-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -68,6 +73,19 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- declaration of dependency versions etc. -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<!-- Inherited by all child modules -->
 	<build>

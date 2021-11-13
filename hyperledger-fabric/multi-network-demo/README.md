@@ -27,6 +27,7 @@ Now that network2 is running, we can add it to the 2 application channels. We ne
 cd ../org1 && \
 cp ../org2/vars/JoinRequest_org2-example-com.json ./vars/NewOrgJoinRequest.json && \
 minifab orgjoin,profilegen && \
+
 cd ../org3 && \
 cp ../org2/vars/JoinRequest_org2-example-com.json ./vars/NewOrgJoinRequest.json && \
 minifab orgjoin,profilegen

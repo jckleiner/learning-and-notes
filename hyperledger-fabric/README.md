@@ -29,7 +29,10 @@ See also https://www.youtube.com/watch?v=r108lkV7auk&list=PL0MZ85B_96CExhq0YdHLP
 ## Useful
 * `minifab channelquery`, `minifab channelquery -c systemchannel`
 * `minifab discover`
-* `system channel VS application channel`: "If a new organization goes into application channel, then the new organization wont be able to create new channels. If a new organization goes into system channel, then the new organization will be able to create new channels."
+* `system channel VS application channel`: "If a new organization goes into application channel, then the new organization wont be able to create new channels. If a new organization goes into system channel, then the new organization will be able to create new channels." (https://github.com/hyperledger-labs/minifabric/blob/main/docs/AddNewOrganization.md)
+
+## Process
+verify options, download images, generate certificates, start network, network status, channel create, channel join, anchor update, profile generation, cc install, cc approve, cc commit, cc initialize, discover
 
 ## TODOs
 * How to see which peers are endorsers? With `minifab discover`?
