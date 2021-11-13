@@ -49,7 +49,7 @@ public class MovieCatalogController {
 
 		// fetch the information for every movie from our movie-info-service - ignoring the exception handling aspect
 		List<Movie> movies = movieIDsForUser.stream()
-				.map(movieId -> restTemplate.getForEntity("http://localhost:8082/movies/" + movieId, Movie.class))
+				.map(movieId -> restTemplate.getForEntity("http://movie-info-service/movies/" + movieId, Movie.class))
 				.map(HttpEntity::getBody)
 				.collect(Collectors.toList());
 
@@ -57,7 +57,7 @@ public class MovieCatalogController {
 
 		// fetch the rating for every movie from our ratings-data-service - ignoring the exception handling aspect
 		List<Rating> ratings = movies.stream()
-				.map(movie -> restTemplate.getForEntity("http://localhost:8083/rating/" + movie.getMovieId(), Rating.class))
+				.map(movie -> restTemplate.getForEntity("http://ratings-data-service/rating/" + movie.getMovieId(), Rating.class))
 				.map(HttpEntity::getBody)
 				.collect(Collectors.toList());
 
