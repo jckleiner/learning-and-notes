@@ -2,12 +2,15 @@ package com.greydev.movieinfoservice.controller;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.greydev.model.Movie;
+import com.greydev.model.MovieInfo;
 import com.greydev.model.Rating;
 
 
@@ -27,12 +30,18 @@ public class MovieController {
 	@Value("${spring.application.name}")
 	private String appName;
 
+	@Value("${app.api-key}")
+	private String apiKey;
+
+	@Autowired
+	private RestTemplate restTemplate;
+
 
 	@GetMapping("/movies/{movieId}")
 	public Movie getMovie(@PathVariable String movieId) {
-		System.out.println("/movies/" + movieId + " called. App: " + appName + ", instance: " + instanceName);
-
-		return MOVIE_ID_TO_MOVIES.get(movieId);
+		MovieInfo movieInfo = restTemplate.getForObject("https://api.themoviedb.org/3/movie/550?api_key="
+				+ apiKey, MovieInfo.class);
+		return new Movie(movieId, movieInfo.getTitle(), movieInfo.getDescription());
 	}
 }
 
