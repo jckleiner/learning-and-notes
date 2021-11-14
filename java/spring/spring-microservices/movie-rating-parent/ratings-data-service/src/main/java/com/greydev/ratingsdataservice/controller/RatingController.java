@@ -2,6 +2,7 @@ package com.greydev.ratingsdataservice.controller;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,14 @@ public class RatingController {
 			"3", new Rating("3", 4.8F)
 	);
 
+	@Value("${app.instanceName}")
+	private String instanceName;
+	@Value("${spring.application.name}")
+	private String appName;
+
 	@GetMapping("/rating/{movieId}")
 	public Rating getRating(@PathVariable String movieId) {
-		System.out.println("/rating/" + movieId);
+		System.out.println("/rating/" + movieId + " called. App: " + appName + ", instance: " + instanceName);
 
 		return MOVIE_ID_TO_RATINGS.get(movieId);
 	}

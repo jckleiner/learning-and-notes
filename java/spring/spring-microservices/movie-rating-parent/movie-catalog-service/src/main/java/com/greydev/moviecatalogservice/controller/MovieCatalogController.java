@@ -3,6 +3,7 @@ package com.greydev.moviecatalogservice.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import static java.util.Collections.emptyList;
 public class MovieCatalogController {
 
 	private final RestTemplate restTemplate;
+
 
 
 	public MovieCatalogController(RestTemplate restTemplate) {
