@@ -1,0 +1,5 @@
+fabric:
+  peers:
+  - "peer1.orgx.example.com"
+  - "peer2.orgx.example.com"
+  netname: "n2"
