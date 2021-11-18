@@ -3,8 +3,6 @@ package com.greydev.moviecatalogservice.controller;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +11,9 @@ import org.springframework.web.client.RestTemplate;
 import com.greydev.model.CatalogItem;
 import com.greydev.model.Movie;
 import com.greydev.model.Rating;
+import com.greydev.moviecatalogservice.service.MovieInfoService;
+import com.greydev.moviecatalogservice.service.RatingsDataService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import static java.util.Collections.emptyList;
 
@@ -20,12 +21,14 @@ import static java.util.Collections.emptyList;
 @RestController
 public class MovieCatalogController {
 
-	private final RestTemplate restTemplate;
+	private final MovieInfoService movieInfoService;
+	private final RatingsDataService ratingsDataService;
 
 
-
-	public MovieCatalogController(RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
+	public MovieCatalogController(MovieInfoService movieInfoService,
+			RatingsDataService ratingsDataService) {
+		this.movieInfoService = movieInfoService;
+		this.ratingsDataService = ratingsDataService;
 	}
 
 
@@ -50,34 +53,25 @@ public class MovieCatalogController {
 		}
 
 		// fetch the information for every movie from our movie-info-service - ignoring the exception handling aspect
-		List<Movie> movies = movieIDsForUser.stream()
-				.map(movieId -> restTemplate.getForEntity("http://movie-info-service/movies/" + movieId, Movie.class))
-				.map(HttpEntity::getBody)
-				.collect(Collectors.toList());
-
-		System.out.println("-> movies: " + movies);
+		List<Movie> movies = ratingsDataService.getMoviesFromApi(movieIDsForUser);
 
 		// fetch the rating for every movie from our ratings-data-service - ignoring the exception handling aspect
-		List<Rating> ratings = movies.stream()
-				.map(movie -> restTemplate.getForEntity("http://ratings-data-service/rating/" + movie.getMovieId(), Rating.class))
-				.map(HttpEntity::getBody)
-				.collect(Collectors.toList());
-
-		System.out.println("-> ratings: " + ratings);
+		List<Rating> ratings = movieInfoService.getRatingsFromApi(movies);
 
 		List<CatalogItem> catalogItems = new ArrayList<>();
 
 		// combine all information into catalog items
 		for (Movie movie : movies) {
-			float ratingForMovie = ratings.stream()
+			Optional<Float> optionalRatingForMovie = ratings.stream()
 					.filter(rating -> rating.getMovieId().equals(movie.getMovieId()))
 					.map(Rating::getRating)
-					.findFirst()
-					.get();
-			catalogItems.add(new CatalogItem(movie.getName(), movie.getDescription(), ratingForMovie));
+					.findFirst();
+			float rating = optionalRatingForMovie.orElse(0F);
+			catalogItems.add(new CatalogItem(movie.getName(), movie.getDescription(), rating));
 		}
 
 		return catalogItems;
 	}
+
 }
 
