@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.greydev.model.Movie;
 import com.greydev.model.Rating;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 
 @Component
@@ -18,17 +19,19 @@ public class MovieInfoService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@HystrixCommand(fallbackMethod = "getFallbackRatingsFromApi")
-	public List<Rating> getRatingsFromApi(List<Movie> movies) {
-		return movies.stream()
-				.map(movie -> restTemplate.getForObject(
-						"http://ratings-data-service/rating/" + movie.getMovieId(), Rating.class))
+
+	@HystrixCommand(fallbackMethod = "getFallbackMoviesFromApi")
+	public List<Movie> getMoviesFromApi(List<String> movieIDsForUser) {
+		return movieIDsForUser.stream()
+				.map(movieId -> restTemplate.getForObject(
+						"http://movie-info-service/movies/" + movieId, Movie.class))
 				.collect(Collectors.toList());
 	}
 
-	private List<Rating> getFallbackRatingsFromApi(List<Movie> movies) {
-		System.out.println(" -> getFallbackRatingsFromApi");
-		return List.of(new Rating("0", 0));
+
+	private List<Movie> getFallbackMoviesFromApi(List<String> movieIDsForUser) {
+		System.out.println(" -> getFallbackMoviesFromApi");
+		return List.of(new Movie("0", "fallback movie", "no description"));
 	}
 
 }

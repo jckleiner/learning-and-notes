@@ -52,11 +52,11 @@ public class MovieCatalogController {
 			return Collections.emptyList();
 		}
 
-		// fetch the information for every movie from our movie-info-service - ignoring the exception handling aspect
-		List<Movie> movies = ratingsDataService.getMoviesFromApi(movieIDsForUser);
-
 		// fetch the rating for every movie from our ratings-data-service - ignoring the exception handling aspect
-		List<Rating> ratings = movieInfoService.getRatingsFromApi(movies);
+		List<Movie> movies = movieInfoService.getMoviesFromApi(movieIDsForUser);
+
+		// fetch the information for every movie from our movie-info-service - ignoring the exception handling aspect
+		List<Rating> ratings  = ratingsDataService.getRatingsFromApi(movies);
 
 		List<CatalogItem> catalogItems = new ArrayList<>();
 
