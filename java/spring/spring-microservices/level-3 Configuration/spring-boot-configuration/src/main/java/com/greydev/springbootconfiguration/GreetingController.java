@@ -3,6 +3,7 @@ package com.greydev.springbootconfiguration;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,9 @@ public class GreetingController {
 	@Value("#{${app.mapMap}}")
 	private Map<String, Map<String, String>> mapMap;
 
+	@Autowired
+	private MailConfigProperties dbConfigProperties;
+
 
 	@GetMapping("/greeting")
 	public String greeting() {
@@ -43,6 +47,7 @@ public class GreetingController {
 				+ "<br> mapInt: " + mapInt + ", size: " + mapInt.size()
 				+ "<br> mapDouble: " + mapDouble + ", size: " + mapDouble.size()
 				+ "<br> mapMap: " + mapMap + ", size: " + mapMap.size()
+				+ "<br> dbConfigProperties: " + dbConfigProperties
 				+ "</p>";
 	}
 }

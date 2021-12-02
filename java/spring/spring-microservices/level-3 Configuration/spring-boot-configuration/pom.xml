@@ -23,10 +23,34 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Use this instead for validation -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<!-- Hibernate validator is deprecated -->
+
+		<!-- DOES NOT WORK out of the box -->
+		<!-- Gives error: "The Bean Validation API is on the classpath
+							but no implementation could be found" -->
+		<!--<dependency>-->
+		<!--	<groupId>javax.validation</groupId>-->
+		<!--	<artifactId>validation-api</artifactId>-->
+		<!--	<version>2.0.1.Final</version>-->
+		<!--</dependency>-->
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
