@@ -33,6 +33,9 @@ public class GreetingController {
 	@Value("#{${app.mapMap}}")
 	private Map<String, Map<String, String>> mapMap;
 
+	@Value("${test.property}")
+	private String testProperty;
+
 	@Autowired
 	private MailConfigProperties dbConfigProperties;
 
@@ -49,6 +52,12 @@ public class GreetingController {
 				+ "<br> mapMap: " + mapMap + ", size: " + mapMap.size()
 				+ "<br> dbConfigProperties: " + dbConfigProperties
 				+ "</p>";
+	}
+
+
+	@GetMapping("/test")
+	public String test() {
+		return "test property: " + testProperty;
 	}
 }
 
