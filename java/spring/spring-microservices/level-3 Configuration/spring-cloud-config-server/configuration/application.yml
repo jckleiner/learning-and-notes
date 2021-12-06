@@ -1,2 +1,4 @@
 remote:
-  prop1: remotePropDefault
+  activeProfile: defaultIsActive
+
+

@@ -1,0 +1,18 @@
+# either an online repo like github or gitlab
+# or a local repository can be supplied
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # base uri of the remote repo
+          uri: https://github.com/jckleiner/learning-and-notes
+          # only works when it is a string. Probably because of the space char
+          search-paths: 'java/spring/spring-microservices/level-3 Configuration/spring-cloud-config-server/configuration'
+          # by default the 'main' branch is searched
+          default-label: master
+
+# convention for spring cloud config server
+server:
+  port: 8888
+
