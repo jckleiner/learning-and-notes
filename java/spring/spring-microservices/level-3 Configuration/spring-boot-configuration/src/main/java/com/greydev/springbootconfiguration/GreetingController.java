@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GreetingController {
 
+	@Autowired
+	private MailConfigProperties dbConfigProperties;
+
 	@Value("${app.fullName: default value}")
 	private String fullName;
 
@@ -36,8 +39,13 @@ public class GreetingController {
 	@Value("${test.property}")
 	private String testProperty;
 
-	@Autowired
-	private MailConfigProperties dbConfigProperties;
+	@Value("${remote.activeProfile}")
+	private String remoteProperty;
+
+	@GetMapping("/remote")
+	public String remote() {
+		return "remote property: " + remoteProperty;
+	}
 
 
 	@GetMapping("/greeting")
@@ -59,5 +67,6 @@ public class GreetingController {
 	public String test() {
 		return "test property: " + testProperty;
 	}
+
 }
 
