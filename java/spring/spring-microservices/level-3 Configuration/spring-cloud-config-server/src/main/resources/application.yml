@@ -6,7 +6,8 @@ spring:
       server:
         git:
           # base uri of the remote repo
-          uri: https://github.com/jckleiner/learning-and-notes
+          #          uri: https://github.com/jckleiner/learning-and-notes
+          uri: file://${user.home}/develop/personal/learning-and-notes
           # only works when it is a string. Probably because of the space char
           search-paths: 'java/spring/spring-microservices/level-3 Configuration/spring-cloud-config-server/configuration'
           # by default the 'main' branch is searched
