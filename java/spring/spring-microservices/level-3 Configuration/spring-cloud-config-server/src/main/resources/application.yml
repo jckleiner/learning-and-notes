@@ -5,6 +5,10 @@ spring:
     config:
       server:
         git:
+          # I've had weird issues when using the local repo:
+          #  - not committed changes (for example in this file or GreetingController.java)
+          #    were discarded automatically?
+          # This does not happen when using a remote uri
           # uri: file://${user.home}/develop/personal/learning-and-notes
           # base uri of the remote repo
           uri: https://github.com/jckleiner/learning-and-notes

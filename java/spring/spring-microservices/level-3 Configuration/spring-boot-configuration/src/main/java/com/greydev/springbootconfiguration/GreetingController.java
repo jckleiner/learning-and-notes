@@ -42,9 +42,6 @@ public class GreetingController {
 	@Value("${remote.activeProfile}")
 	private String remoteProperty;
 
-	@Value("${remote.specificProperty}")
-	private String specificRemoteProperty;
-
 
 	@GetMapping("/remote")
 	public String remote() {
@@ -69,8 +66,7 @@ public class GreetingController {
 
 	@GetMapping("/test")
 	public String test() {
-		return "test property: " + testProperty +
-				", and specific property: " + specificRemoteProperty;
+		return "test property: " + testProperty;
 	}
 
 }
