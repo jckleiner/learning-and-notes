@@ -1,8 +1,9 @@
 package com.greydev.barebonejpaapp;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import javax.persistence.*;
 
 import lombok.*;
 
@@ -11,6 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 
 @Entity // from javax.persistence.Entity, not hibernate
 @Table(name = "EMPLOYEE_DATA")
@@ -20,8 +22,19 @@ public class Employee {
 	// you can tell it not to, or configure it
 
 	@Id // Specifies the primary key of an entity
-	private int id;
+	@Setter(AccessLevel.NONE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String name;
+
+	@Temporal(TemporalType.TIME)
+	private Date dateOfBirth;
+
+	private LocalDateTime localDateTime;
+
+	@Enumerated(EnumType.STRING)
+	private EmployeeType type;
+
 }
 
