@@ -2,8 +2,11 @@ package com.greydev.barebonejpaapp;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import lombok.*;
 
@@ -12,18 +15,14 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 
-@Entity // from javax.persistence.Entity, not hibernate
+// from javax.persistence.Entity, not hibernate
+// @Entity
 @Table(name = "EMPLOYEE_DATA")
 public class Employee {
 
-	// JPA by default maps fields to columns, in nothing specified
-	// you can tell it not to, or configure it
-
-	@Id // Specifies the primary key of an entity
-	@Setter(AccessLevel.NONE)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	private String name;
@@ -36,5 +35,20 @@ public class Employee {
 	@Enumerated(EnumType.STRING)
 	private EmployeeType type;
 
+	// @JoinColumn(name = "bla_id")
+
+	@OneToOne(fetch = FetchType.EAGER)
+	private AccessCard accessCard;
+
+
+	@Override public String toString() {
+		return "Employee{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", dateOfBirth=" + dateOfBirth +
+				", localDateTime=" + localDateTime +
+				", type=" + type +
+				'}';
+	}
 }
 
