@@ -1,4 +1,4 @@
-## SSH
+# SSH
 
 
 ### ssh_config vs sshd_config
@@ -27,3 +27,5 @@ To enable sending a keep-alive signal for all hosts, place the following content
  * Mac (?): `sudo launchctl stop com.openssh.sshd && sudo launchctl start com.openssh.sshd`
 
  
+## TODO
+ * SSH Tunnel vs SOCKS Proxy (`ssh -N -D 1234 user@server` and then using localhost:1234 as proxy)
