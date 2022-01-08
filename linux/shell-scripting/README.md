@@ -1,10 +1,11 @@
-# Shell Scripting
+# Shell (Bash) Scripting
 
 ## Table of Contents
   1. [Coding Conventions](#coding-conventions)
   2. [Parsing Commandline Options With `getopts` / `getopt`](#parsing-commandline-options)
   3. [Basics](#basics)
   4. [Dollar Sign](#dollar-sign)
+  4. [Common Practices](#common-practices)
 
 <details id="coding-conventions">
 <summary><b>Coding Conventions</b></summary>
@@ -148,6 +149,22 @@ Again, , when a script has a command with a relative path i.e. `source .log-colo
  * TODO: https://stackoverflow.com/questions/5163144/what-are-the-special-dollar-sign-shell-variables 
 </details>
 <br/>
+
+<details id="common-practices">
+<summary><b>Common Practices</b></summary>
+<br/>
+
+Change to the directory where the script is: `cd "$(dirname "${BASH_SOURCE[0]}")"`
+See https://github.com/junegunn/fzf/blob/master/install for examples.
+
+And then you can set your base path and continue the execution based on that: `script_base_path=$(pwd)`
+
+Determine from where the script was initited: TODO
+
+</details>
+<br/>
+
+
 
 **TODO**
   * [[ ]] vs [ ] --- https://www.shell-tips.com/bash/if-statement/
