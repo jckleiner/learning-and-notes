@@ -17,6 +17,11 @@ This means the props WILL NOT HAVE prop validation with Vue 3 and `vue-class-com
 The maintainer of Vetur added the issue to the `v0.36.0` milestone
 See the issue: https://github.com/vuejs/vetur/issues/2344
 
+### Volar 
+The preffered plugin to use?
+
+### Linter Support
+In VsCode, you need to open the Vue Project Folder in a new window, else the linters get confused and show different errors in js, html etc.
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
