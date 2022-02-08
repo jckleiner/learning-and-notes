@@ -4,22 +4,18 @@
 
 * Seems to be the best option for now
 
-### Obsidian ❌
+Cons:
 
-* Not great support for html in markdown
-* Other than that its not bad
+* 1 row tables always display text in bold
 
-### Joplin ❌
+### Vscode with extension
 
-* Pretty cool overall but does not have "Open folder"
-
-### Notable ❌❌❌
-
-Just nope...
+* "Markdown all in One" (preview with: CMD+K, ) and "Markdown Paste" (paste with: Option+CMD+V) extension
+* No WYSIWYG support, need to be split screen
 
 ### Mark Text ❌
 
-Has 2 modes: 
+Has 2 modes:
 
 1. Source Code mode: shows raw markdown
 2. WYSIWYG mode
@@ -33,7 +29,7 @@ Pros:
 
 Cons:
 
-* Undo/Redo is since 2019 buggy 
+* Undo/Redo is since 2019 buggy
 * No Undo/Redo in source code mode
 
 ## Zettlr ❌
@@ -46,8 +42,10 @@ Pros:
 
 Cons:
 
+* Images in table cells ignore the app preferences and  are displayed 100% in table cells.
 * Does not have a preview mode which means it is not WYSIWYG but instead WYSIWYM (What You See Is What You Mean)
-* No support for rendering html tags. For example `<img src="..." width="..."/>`  is not rendered
+* No support for rendering html tags. For example `<img src="..." width="..."/>` is not rendered
+* Tables are a little buggy
 
 ### MacDown ❌
 
@@ -72,6 +70,35 @@ Cons:
 ### Notea ❌
 
 * Self hosted Notion like markdown editor
+
+### Joplin ❌
+
+* Pretty cool overall but does not have "Open folder"
+
+### Unotes (vscode extension) ❌
+
+* Has WYSIWYG support but has a weird and buggy undo/redo
+
+### Notable ❌❌❌
+
+Just nope...
+
+### Obsidian ❌
+
+Cons:
+
+* No WYSIWYG support
+* 1 row tables always display text in bold
+* Not great support for html in markdown
+* Does not support markdown shortcuts (heading 1,2,3,4..., paragraph etc.)
+
+### BBedit ❌
+
+Cons:
+
+* No WYSIWYG support
+* Its a text editor, not a markdown editor
+
 
 
 
