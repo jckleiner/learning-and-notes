@@ -48,6 +48,10 @@ plugins:
     source:
         version: 2.7
 
+  - artifactId: job-dsl
+    source:
+        version: 1.79
+
   - artifactId: credentials-binding
     source:
       version: latest

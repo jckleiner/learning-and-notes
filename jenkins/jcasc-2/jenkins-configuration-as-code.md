@@ -108,6 +108,11 @@ If you don’t have a second machine to host the agent, you can create a separat
 
 
 
+### Troubleshooting
+
+Race condition: `DefaultCrumbIssuer is missing its descriptor`
+See: https://issues.jenkins.io/browse/JENKINS-63385
+
 
 
 
