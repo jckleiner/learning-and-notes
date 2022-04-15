@@ -106,6 +106,12 @@ jenkins:
 If you don’t have a second machine to host the agent, you can create a separate user account on the same computer that hosts your controller and then use that account to run the agent.
 
 
+## Job DSL
+
+Source: https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-job-configuration-using-job-dsl
+
+
+
 
 
 ### Troubleshooting

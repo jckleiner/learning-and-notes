@@ -11,8 +11,7 @@ jenkins:
       - id: ${JENKINS_ADMIN_ID}
         password: ${JENKINS_ADMIN_PASSWORD}
 
-  # Can be removed
-  # https://www.jenkins.io/doc/book/security/controller-isolation/jep-235/#api-compatibility
+  # No longer needed: https://www.jenkins.io/doc/book/security/controller-isolation/jep-235/#api-compatibility
   # remotingSecurity:
   #   enabled: true
 
