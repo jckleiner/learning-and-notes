@@ -35,6 +35,11 @@ plugins:
     source:
         version: 1.1
 
+  # displays the stages of a pipeline on the pipeline overview page
+  - artifactId: pipeline-stage-view
+    source:
+        version: 2.23
+
   - artifactId: ssh-agent
     source:
         version: latest

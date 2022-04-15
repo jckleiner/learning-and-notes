@@ -20,7 +20,7 @@ RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.yaml
 
 # copy the config for the Jenkins Configuration as Code Plugin
 COPY --chown=jenkins:jenkins configuration-as-code.yaml /var/jenkins_home/configuration-as-code.yaml
-ADD --chown=jenkins:jenkins jobs /var/jenkins_home/jobs
+ADD --chown=jenkins:jenkins example-jobs /var/jenkins_home/example-jobs
 ADD --chown=jenkins:jenkins logic /var/jenkins_home/logic
 
 

@@ -39,4 +39,4 @@ unclassified:
 # https://stackoverflow.com/questions/35898020/job-dsl-to-create-pipeline-type-job
 
 jobs:
-  - file: /var/jenkins_home/jobs/job1.groovy
+  - file: /var/jenkins_home/example-jobs/job1.groovy
