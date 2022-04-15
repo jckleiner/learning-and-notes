@@ -2,6 +2,11 @@
 # Artifactory
 
 Simple Docker Installation: https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation 
+ 1. make sure you are inside the artifactory folder
+ 2. `mkdir -p ./var/etc`
+ 3. `touch ./var/etc/system.yaml`
+ 4. `chown -R 1030:1030 ./var`
+ 5. `chmod -R 777 ./var`
 
 Artifactory has uses 2 ports:
     - `8081`: endpoint for deploying artifacts

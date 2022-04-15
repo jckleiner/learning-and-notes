@@ -24,6 +24,7 @@ This is because bind-volumes will by default have root as the owner. There is cu
 `docker build -t jckleiner/hate-jenkins .`
 
 `docker run -d -v /var/run/docker.sock.raw:/var/run/docker.sock --name jenkins -p 8080:8080 --env-file=.env jckleiner/hate-jenkins`
+`docker run -d --name jenkins -p 8080:8080 --env-file=.env jckleiner/hate-jenkins`
 
 `docker stop jenkins && docker rm jenkins && docker build -t jckleiner/hate-jenkins . && docker run -d -v /var/run/docker.sock.raw:/var/run/docker.sock --name jenkins -p 8080:8080 --env-file=.env jckleiner/hate-jenkins`
 
