@@ -1,0 +1,34 @@
+jenkins:
+  securityRealm:
+    local:
+      # prevent anonymous users from creating an account through the web interface
+      allowsSignup: false
+
+      users:
+      # variables are looked up from 
+      #   1. env variables, 
+      #   2. file of the same name that’s placed inside the `/run/secrets/`
+      - id: ${JENKINS_ADMIN_ID}
+        password: ${JENKINS_ADMIN_PASSWORD}
+
+  remotingSecurity:
+    enabled: true
+
+  authorizationStrategy:
+    # requires matrix-auth plugin
+    globalMatrix:
+      permissions:
+        - "USER:Overall/Administer:admin"
+        - "GROUP:Overall/Read:authenticated"
+
+# requires authorize-project plugin
+security:
+  queueItemAuthenticator:
+    authenticators:
+    - global:
+        strategy: triggeringUsersAuthorizationStrategy
+
+unclassified:
+  # Specify the Jenkins URL
+  location:
+    url: http://localhost:8080/
