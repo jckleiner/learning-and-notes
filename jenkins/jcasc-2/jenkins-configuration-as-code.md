@@ -111,7 +111,30 @@ If you don’t have a second machine to host the agent, you can create a separat
 Source: https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-job-configuration-using-job-dsl
 
 
+### Docker inside Docker for Jenkins
+* https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins-setup-with-docker-and-jenkins-configuration-as-code
+* https://piotrminkowski.com/2018/09/24/running-jenkins-server-with-configuration-as-code/
 
+* https://stackoverflow.com/questions/36185035/how-to-mount-docker-socket-as-volume-in-docker-container-with-correct-group
+* Get the group id of a group for mac: https://stackoverflow.com/questions/10910096/what-is-the-command-to-get-groupid-of-a-group-name-in-mac-or-linux
+
+* https://github.com/docker/for-mac/issues/4755
+* https://stackoverflow.com/questions/44999000/permission-denied-error-invoking-docker-on-mac-host-from-inside-docker-ubuntu-co
+
+Jenkins can detect that it is being run inside a container: `Jenkins seems to be running inside container <container-id>`
+
+### /var/run/docker.sock: connect: permission denied
+An `ls -la /var/run/docker.sock` inside the container shows the owner is `root:root`.
+This is because bind-volumes will by default have root as the owner. There is currently no way to change this (see: Add ability to mount volume as user other than root: https://github.com/moby/moby/issues/2259).
+
+**Workaround**: Since the file is mounted at runtime, we have to set the root user as the user of the container (not jenkins like before) and then change the owner of `/var/run/docker.sock` to `jenkins:jenkins` at runtime by modifying the original `ENTRYPOINT` script for `jenkins/jenkins:lts-jdk11` and add `chown jenkins:jenkins /var/run/docker.sock` at the beginning of the script. 
+
+## Build / Run
+
+`docker build -t jenkins:jcasc .`
+`docker rm jenkins`
+`docker run -d --name jenkins -p 8080:8080 --env-file=.env -v /var/run/docker.sock:/var/run/docker.sock jenkins:jcasc`
+`docker run --name jenkins -p 8080:8080 -e JENKINS_ADMIN_ID=admin -e JENKINS_ADMIN_PASSWORD=admin jenkins:jcasc`
 
 
 ### Troubleshooting
@@ -119,6 +142,9 @@ Source: https://www.digitalocean.com/community/tutorials/how-to-automate-jenkins
 Race condition: `DefaultCrumbIssuer is missing its descriptor`
 See: https://issues.jenkins.io/browse/JENKINS-63385
 
-
+### Todos
+ * Put jobs inside folders and views
+ * Create seed job in `configuration-as-code.yaml`
+ * Agents
 
 

@@ -56,16 +56,16 @@ pipelineJob('job-name') {
     cps {
       script('''
         pipeline {
-            agent any
-            stages {
-                stage('Stage 1') {
-                    steps {
-                        echo 'logic'
-                    }
+            agent {
+                dockerfile {
+                    dir '/var/jenkins_home/dockerfiles'
+                    filename 'Dockerfile.node16'
                 }
-                stage('Stage 2') {
+            }
+            stages {
+                stage('Test') {
                     steps {
-                        echo 'logic'
+                        sh 'node --version'
                     }
                 }
             }

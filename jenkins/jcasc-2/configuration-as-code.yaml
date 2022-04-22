@@ -1,3 +1,5 @@
+# example: https://github.com/jdstamp/ccmb-jenkins/blob/main/configuration/configuration-as-code.yaml
+
 jenkins:
   securityRealm:
     local:
@@ -20,8 +22,8 @@ jenkins:
     globalMatrix:
       permissions:
         - "USER:Overall/Administer:admin"
-        # - "GROUP:Overall/Read:authenticated"
-        - "GROUP:Overall/Administer:anonymous" # for testing
+        - "GROUP:Overall/Read:authenticated"
+        # - "GROUP:Overall/Administer:anonymous" # TODO for testing
 
 # requires authorize-project plugin
 security:
@@ -38,5 +40,6 @@ unclassified:
 # https://github.com/jenkinsci/job-dsl-plugin/blob/master/docs/JCasC.md
 # https://stackoverflow.com/questions/35898020/job-dsl-to-create-pipeline-type-job
 
+# requires job-dsl plugin
 jobs:
   - file: /var/jenkins_home/example-jobs/job1.groovy

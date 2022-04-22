@@ -1,14 +1,21 @@
 pipeline {
-    agent any
-    stages {
-        stage('Stage 1') {
-            steps {
-                echo 'logic'
-            }
+    // agent {
+    //     docker { image 'node:16.13.1-alpine' }
+    // }
+    agent {
+        dockerfile {
+            dir './path/to/dockerfile'
+            filename 'Dockerfile.node16'
+            label 'my-label'
+            additionalBuildArgs  '--build-arg version=1.0'
+            args '-v /tmp:/tmp'
+
         }
-        stage('Stage 2') {
+    }
+    stages {
+        stage('Test') {
             steps {
-                echo 'logic'
+                sh 'node --version'
             }
         }
     }

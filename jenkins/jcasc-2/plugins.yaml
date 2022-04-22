@@ -53,6 +53,11 @@ plugins:
     source:
         version: 2.7
 
+  # Docker Pipeline: allows to use docker inside pipelines
+  - artifactId: docker-workflow
+    source:
+        version: 1.28
+
   - artifactId: job-dsl
     source:
         version: 1.79

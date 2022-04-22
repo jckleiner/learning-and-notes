@@ -503,8 +503,11 @@ don't give the protocol, else it cannot find the ip
  * Does not work: `ping http://h2905222.stratoserver.net/`
 
 
+## Git global ignore
 
-
+https://stackoverflow.com/questions/7335420/global-git-ignore
+`git config --get core.excludesfile` returns `~/.gitignore_global`.
+TODO test if this really works
 
 **TODO**: configure lf 1. cd where you switch 2. mkdir
 **TODO**: enable `code`
