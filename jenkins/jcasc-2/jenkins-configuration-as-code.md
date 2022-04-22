@@ -136,13 +136,47 @@ This is because bind-volumes will by default have root as the owner. There is cu
 `docker run -d --name jenkins -p 8080:8080 --env-file=.env -v /var/run/docker.sock:/var/run/docker.sock jenkins:jcasc`
 `docker run --name jenkins -p 8080:8080 -e JENKINS_ADMIN_ID=admin -e JENKINS_ADMIN_PASSWORD=admin jenkins:jcasc`
 
+## Docker as Jenkins Agent
+As far as I understood (i could be wrong), you can use Docker images/Dockerfiles as Agents in 2 ways:
+ 1. Docker agents on a remote VM/server
+ 2. Docker agents on a remote VM/server using Docker Agent Template
+ 3. Docker agents on the same (controller) machine
 
-### Troubleshooting
+**How to Create an Agent Node in Jenkins**: https://www.youtube.com/watch?v=99DddJiH7lM
+
+### Docker agents on a remote VM/server
+You can setup an agent and disable the executors on your controller machine as recommended.
+When you then use `dockerfile` as your agent, this will start a container in the agent you've setup.
+
+```Groovy
+agent {
+  dockerfile {
+      dir '/var/jenkins_home/dockerfiles'
+      filename 'Dockerfile.node16'
+  }
+  ...
+}
+```
+
+### Docker agents on a remote VM/server using Docker Agent Template
+You can have a different server/VM which has Docker installed and with some ports/endpoints enabled.
+Then you can setup an Agent with `Docker Agent Template` like any other Jenkins Agent which gets a label, for example `centos`.
+You also need to specify an image to run on your agent when you use Docker Agent Template.
+When you then use `agent { label 'centos' }` in your Pipeline, Jenkins will spin up a new Docker instance **on the remote Docker host**
+and your build will be executed there.
+
+See for an example: https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+
+### Docker agents on the same (controller) machine
+(Not recommended) If you don't have any Agents, you can still use `dockerfile` as your agent in pipelines.
+This will start a container on the same machine and run your jobs inside that container. 
+
+## Troubleshooting
 
 Race condition: `DefaultCrumbIssuer is missing its descriptor`
 See: https://issues.jenkins.io/browse/JENKINS-63385
 
-### Todos
+## Todos
  * Put jobs inside folders and views
  * Create seed job in `configuration-as-code.yaml`
  * Agents
