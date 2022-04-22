@@ -132,9 +132,11 @@ This is because bind-volumes will by default have root as the owner. There is cu
 ## Build / Run
 
 `docker build -t jenkins:jcasc .`
-`docker rm jenkins`
+`docker stop jenkins && docker rm jenkins`
 `docker run -d --name jenkins -p 8080:8080 --env-file=.env -v /var/run/docker.sock:/var/run/docker.sock jenkins:jcasc`
 `docker run --name jenkins -p 8080:8080 -e JENKINS_ADMIN_ID=admin -e JENKINS_ADMIN_PASSWORD=admin jenkins:jcasc`
+
+`docker build -t ubuntu22 -f Dockerfile.ubuntu22 .`
 
 ## Docker as Jenkins Agent
 As far as I understood (i could be wrong), you can use Docker images/Dockerfiles as Agents in 2 ways:
@@ -177,8 +179,9 @@ Race condition: `DefaultCrumbIssuer is missing its descriptor`
 See: https://issues.jenkins.io/browse/JENKINS-63385
 
 ## Todos
+ * Build a maven project on a docker agent
  * Put jobs inside folders and views
  * Create seed job in `configuration-as-code.yaml`
- * Agents
+ * Create a VM with Vagrant and set it as an agent
 
 

@@ -51,7 +51,7 @@ listView('DEV') {
 /*
 // Inline alternative
 */
-pipelineJob('job-name') {
+pipelineJob('example-job-node') {
   definition {
     cps {
       script('''
@@ -65,6 +65,38 @@ pipelineJob('job-name') {
             stages {
                 stage('Test') {
                     steps {
+                        sh 'node --version'
+                        sh 'git --version'
+                        sh 'curl --version'
+                        sh 'jq --version'
+                    }
+                }
+            }
+        }
+      '''.stripIndent())
+      sandbox()     
+    }
+  }
+}
+
+pipelineJob('example-job-ubuntu22') {
+  definition {
+    cps {
+      script('''
+        pipeline {
+            agent {
+                dockerfile {
+                    dir '/var/jenkins_home/dockerfiles'
+                    filename 'Dockerfile.ubuntu22'
+                }
+            }
+            stages {
+                stage('Test') {
+                    steps {
+                        sh 'java --version'
+                        sh 'git --version'
+                        sh 'curl --version'
+                        sh 'jq --version'
                         sh 'node --version'
                     }
                 }
