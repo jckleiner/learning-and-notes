@@ -138,7 +138,7 @@ This is because bind-volumes will by default have root as the owner. There is cu
 
 `docker stop ubuntu && docker rm ubuntu`
 `docker build -t ubuntu22 -f Dockerfile.ubuntu22 .`
-`docker run -t -i ubuntu22 /bin/bash`
+`docker run -t -i --name ubuntu ubuntu22 /bin/bash`
 
 ### Where should JAVA_HOME point to?
 It doesn't matter now since new JDK versions don't have separate JRE folder. So, we can point to JDK and be done with it.
@@ -185,6 +185,8 @@ Race condition: `DefaultCrumbIssuer is missing its descriptor`
 See: https://issues.jenkins.io/browse/JENKINS-63385
 
 ## Todos
+ * Artifactory
+ * Reference jenkinsfiles in job1.groovy
  * SSH keys
  * Still known hosts error
  * Docker instances are by default exposed (0.0.0.0:8080). Maybe use reverse proxy for Jenkins and make it 127.0.0.1:8080? 

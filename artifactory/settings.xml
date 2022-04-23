@@ -7,14 +7,14 @@ xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.o
     <server>
       <id>artifactory-maven-release</id>
       <username>ci-user</username>
-      <password>Password1</password>
+      <password>Password1*</password>
     </server>
 
     <!-- Snapshot -->
     <server>
       <id>artifactory-maven-snapshot</id>
       <username>ci-user</username>
-      <password>Password1</password>
+      <password>Password1*</password>
     </server>
 
   </servers>

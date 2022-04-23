@@ -15,7 +15,6 @@ RUN echo Europe/Berlin > /etc/timezone \
                     curl \
                     debianutils \
                     git \
-                    git-lfs \
                     jq \
                     locales \
                     rsync \
@@ -38,8 +37,6 @@ RUN useradd -M ${USER} \
     && ssh-keyscan -H github.com >> /home/${USER}/.ssh/known_hosts
 
 WORKDIR /home/${USER}
-
-
 
 # Keeps the container alive - NOT required for Jenkins
 # locally: use '--entrypoint' instead

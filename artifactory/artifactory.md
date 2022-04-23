@@ -1,25 +1,39 @@
 
 # Artifactory
-
 Simple Docker Installation: https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory#InstallingArtifactory-DockerInstallation 
+You need to setup these directories once:
  1. make sure you are inside the artifactory folder
  2. `mkdir -p ./var/etc`
  3. `touch ./var/etc/system.yaml`
- 4. `chown -R 1030:1030 ./var`
- 5. `chmod -R 777 ./var`
+ 4. `sudo chown -R 1030:1030 ./var`
+ 5. `sudo chmod -R 777 ./var`
 
 Artifactory has uses 2 ports:
     - `8081`: endpoint for deploying artifacts
     - `8082`: ui endpoint
 
-## Setup:
+## Setup
  1. Start Artifactory: `docker run --name artifactory -v ~/develop/personal/learning-and-notes/artifactory/var:/var/opt/jfrog/artifactory -d -p 8081:8081 -p 8082:8082 releases-docker.jfrog.io/jfrog/artifactory-oss:latest`
  2. `http://localhost:8082` -> Default username: `admin`, Default password: `password`
- 3. change your admin password (system forces you to do so)
- 4. create 2 `local repository`s -> Maven
- 5. in settings one should have `Handle Snapshots` checked and the other `Handle Releases`
- 6. (Optional) You can also set `Max Unique Snapshots` for your snapshot repo, so it won't keep many unused artifacts
- 7. create a new user `ci-user` with a password `Password1`
+ 3. change your admin password (system forces you to do so). Change it to `Password1*`
+ 4. create a new user `ci-user` with a password `Password1*`
+
+### Manual Setup
+ 1. create 2 `local repository`s -> Maven. `artifactory-maven-release` and `artifactory-maven-snapshot`
+ 2. in settings one should have `Handle Snapshots` checked and the other `Handle Releases`
+ 3. (Optional) You can also set `Max Unique Snapshots` for your snapshot repo, so it won't keep many unused artifacts
+
+### Configuration as code
+https://www.jfrog.com/confluence/display/JFROG/Artifactory+YAML+Configuration
+
+Once you have configured your YAML file to include all the configuration changes needed, you can apply them by sending a PATCH request to `<host>:<port>/api/system/configuration`. You must supply a user with Admin privileges through the REST API.
+
+For example:
+	curl -u <username>:<password> -X PATCH "http://localhost:8081/artifactory/api/system/configuration" -H "Content-Type: application/yaml" -T configuration.yml
+
+Use the following curl command to setup our 2 repositories: `curl -u 'admin':'Password1*' -X PATCH "http://localhost:8081/artifactory/api/system/configuration" -H "Content-Type: application/yaml" -T ./config/local-repository-config.yml`
+
+`curl -u 'admin':'Password1*' -X GET "http://localhost:8081/artifactory/api/system/configuration"`
 
 ## Deploy Locally
 Deploy a local maven artifact to the local artifactory:
@@ -61,7 +75,6 @@ Release repositories hold releases and Snapshot repositories hold snapshots (wow
 > You can write anything as a version, it does not need to be a number like 1.0.4 (this way of versioning your artifacts is called semantic versioning). For example, you can also version your artifacts like `PROD-20220408_1402`, `TEST-20220408_1402` and so on.
 
 ## How Artifactory Handles Artifacts
-
 In Artifactory, a local repository can be a `Snapshot Repository` and also a `Release Repository` at the same time, if you chose so.
 > But it is good practice to have 2 different repositories for each.
 
@@ -82,7 +95,6 @@ As an example, if you deploy a snapshot, artifactory will automatically add a ti
 And when you pull the `1.0-SNAPSHOT` artifact from that snapshot repository, you will get the latest version.
 
 ## Snapshot Cleanup
-
 In a snaphot repository, you can set the `Max Unique Snapshots` setting.
 Every time you deploy a snapshot, Artifactory will check the value `Max Unique Snapshots` for the repository, and if exceeded will mark any excess old snapshots for deletion. Then, **every 5 minutes**, Artifactory runs a background process that deletes those oldest snapshots that have been marked. For example, if you set Max Unique Snapshots to 5 and deploy a sixth and seventh snapshot to the repository, then next time the background process runs, it will delete the two oldest snapshots.
 
@@ -91,20 +103,9 @@ Unlike snapshot artifacts, there is always only one version of a release artifac
 
 If you push the same version again, it will give you a success response but **it does not override the files, if the same version is already present**
 
-
-
-`TODO` pulling release artifacts, if you don't give a version, it pulls the latest?
-
-
-
-
-TODO, play with Maven Settings:
-
-
-
-* `--no-transfer-progress`: TODO
-
-
+## Todos
+ - Permissions and groups
+ - pulling release artifacts, if you don't give a version, it pulls the latest?
 
 
 Check version and other infos (needs admin account): http://localhost:8081/artifactory/api/system/version
