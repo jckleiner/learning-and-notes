@@ -83,6 +83,11 @@ pipelineJob('example-job-ubuntu22') {
   definition {
     cps {
       script('''
+        // Host key verification failed: https://stackoverflow.com/questions/15214977/cloning-git-repo-causes-error-host-key-verification-failed-fatal-the-remote/29380672#29380672
+        def repoUrl = 'ssh://git@github.com:jckleiner/notion-backup.git'
+        // def repoUrl = 'https://github.com/jckleiner/notion-backup.git'
+        def branch = 'master'
+
         pipeline {
             agent {
                 dockerfile {
@@ -97,7 +102,22 @@ pipelineJob('example-job-ubuntu22') {
                         sh 'git --version'
                         sh 'curl --version'
                         sh 'jq --version'
-                        sh 'node --version'
+                    }
+                }
+                stage('Checkout') {
+                    steps {
+                        dir('my-repo') {
+                            git branch: branch,
+                                url: repoUrl
+                        }
+                    }
+                }
+                stage('Build') {
+                    steps {
+                        dir('my-repo') {
+                            sh "mvn clean install --fail-at-end --no-transfer-progress --batch-mode"
+                            
+                        }
                     }
                 }
             }
