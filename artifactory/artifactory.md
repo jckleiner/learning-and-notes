@@ -23,17 +23,39 @@ Artifactory has uses 2 ports:
  2. in settings one should have `Handle Snapshots` checked and the other `Handle Releases`
  3. (Optional) You can also set `Max Unique Snapshots` for your snapshot repo, so it won't keep many unused artifacts
 
-### Configuration as code
-https://www.jfrog.com/confluence/display/JFROG/Artifactory+YAML+Configuration
+## Configuration as code
+You can provide YAML configuration files which will be used to set up the system during startup.
 
-Once you have configured your YAML file to include all the configuration changes needed, you can apply them by sending a PATCH request to `<host>:<port>/api/system/configuration`. You must supply a user with Admin privileges through the REST API.
+ * See the documentation: https://www.jfrog.com/confluence/display/JFROG/System+YAML+Configuration+File
+
+JFrog provides a flexible way to configure your system using a single `system.yaml` configuration file found in the `$JFROG_HOME/<product>/var/etc` folder. You can set up your system configuration in a single config file and provide that file as an input to your server as you deploy the server. The configuration files allow you to manage several aspects of your system, including resources, security settings, databases, and external connections.
+
+Configuration values are applied according to the following hierarchy:
+
+ 1. Environment variables (`.env` file in case of Docker and Docker-Compose). if there are no variables, move to the next values
+ 2. `system.yaml` service section, if nothing is found there, move to the next values
+ 3. `system.yaml` shared section, if nothing is found there, move to the next values
+ 4. Etc.
+
+If the user does not set any values in any of the files above, the application will use the default settings of the application.
+
+Once you have configured your YAML file to include all the configuration changes needed, you can apply them by **restarting the server**.
+
+> **Take care when modifying Artifactory configurations**: Modifying the system configurations is an advanced feature. Since it is easy to overwrite configurations, it is strongly recommended backing up the configuration before making any direct changes, and taking great care when doing so.
+
+### Changes during runtime
+Once the system is running, you can use the REST-API to make changes by providing YAML config files. You can create new repositories, change the config or delete stuff. (See https://www.jfrog.com/confluence/display/JFROG/Artifactory+YAML+Configuration)
+
+This can be done by sending a PATCH request to `<host>:<port>/api/system/configuration`. You must supply a user with Admin privileges through the REST API.
 
 For example:
 	curl -u <username>:<password> -X PATCH "http://localhost:8081/artifactory/api/system/configuration" -H "Content-Type: application/yaml" -T configuration.yml
 
 Use the following curl command to setup our 2 repositories: `curl -u 'admin':'Password1*' -X PATCH "http://localhost:8081/artifactory/api/system/configuration" -H "Content-Type: application/yaml" -T ./config/local-repository-config.yml`
 
-`curl -u 'admin':'Password1*' -X GET "http://localhost:8081/artifactory/api/system/configuration"`
+Get the configuration as XML: `curl -u 'admin':'Password1*' -X GET "http://localhost:8081/artifactory/api/system/configuration"`
+
+System configuration with YAML: https://www.jfrog.com/confluence/display/JFROG/Artifactory+System+YAML
 
 ## Deploy Locally
 Deploy a local maven artifact to the local artifactory:
