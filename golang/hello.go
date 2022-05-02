@@ -1,8 +1,9 @@
 package main
 
-import "fmt"
+import "fmt" // from the standard library
 import "rsc.io/quote"
 
 func main() {
-    fmt.Println(quote.Go())
+    fmt.Println("todays quote: " + quote.Go())
+    fmt.Println("quote from my function " + giveString())
 }
