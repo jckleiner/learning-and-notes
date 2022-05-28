@@ -5,6 +5,7 @@
 Printing numbers with precision with `System.out.printf` or `String.format`
 
  - `%.5f`  Print the decimal value with 5 places after the decimal, like 0.333333
+ - `%6s`  Add 6 spaces before the string value
  - `%s represents an string`
  - `%d represents an integer`
  - `%f represents an double`
@@ -107,9 +108,16 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Sorting a map of lists
  * Sorting tuples, triples
  * List of lists, flatmap
+ * iterate map
  * BFS
  * str.matches, some common regex
-
+ * Difference between `array`s and `ArrayList`s?
+ * Stack vs Heap (There was a nice explanation video for Java)
+ * TDD (https://martinfowler.com/articles/workflowsOfRefactoring/#tdd)
+ * 12 PM vs 12 AM -> converting am to normal time and vice versa
+ * Trie (auto complete)
+ * Traverse a tree
+ * Convert `int[]` to `List<Integer>` and vice versa
 
 ### General
  1. Unicode vs Utf8 vs utf16
@@ -120,3 +128,92 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Java natural order
  * Comparator vs Comparable
  * extract a comparator as a method: `private Comparator<Integer> myComparator() { return (a, b) -> {...}}`
+ * `Arrays.asList()` returns a `fixed-size` list. `add()` or `remove()` will throw an exception.
+   Wrap it like this to get a regular list: `new ArrayList<>(Arrays.asList(...))` 
+ 
+
+
+### Todo - move to docs
+ * The `for` loops middle condition is evaluated before each iteration.
+    
+        for(int index = 0; index < list.size(); index++) {
+            /* ...body... */
+        }
+    is equivalent to:
+
+        int index = 0;
+        while (index < list.size()) {
+            /* ...body... */
+            index++;
+        }
+    Modifying a list (structually) while iterating over it is allowed, it will compile and run 
+    but you will probably break the correct sequence and miss some of the elements.
+
+    > "A structural modification is any operation that adds or deletes one or more elements, 
+    > or explicitly resizes the backing array; merely setting the value of an element is not a structural modification." 
+    
+    ```java
+    List<Integer> list = new ArrayList<>(Arrays.asList(2, 8, 5, 4, 1));
+
+    for (Integer i : list) {
+        if (i > someValue) {
+            list.remove(i); // throws concurrentModificationException
+            list.add(99);   // throws concurrentModificationException
+        }
+    }
+
+    // runs without an error but might skip some elements because the iteration order might change
+    for (int i = 0; i < list.size(); i++) {
+        if (i > someValue) {
+            list.remove(i);     // works
+            list.add(99);       // works
+        }
+    }
+
+    Iterator<Integer> iter = list.iterator();
+    while(iter.hasNext()) {
+        Integer i = iter.next();
+        if (i > 0) {
+            System.out.println("i: " + i);
+            iter.remove();      // works correctly
+            list.add(12);       // throws concurrentModificationException
+        }
+    }
+    assertThat(list).isEmpty();
+    ```
+
+    **Alternatives - Removing elements while iterating**
+    1. If we want to keep our foreach loop and not use an iterator:
+
+    ```java
+    List<Integer> integers = newArrayList(1, 2, 3);
+    List<Integer> toRemove = newArrayList();
+
+    for (Integer integer : integers) {
+        if(integer == 2) {
+            toRemove.add(integer);
+        }
+    }
+    integers.removeAll(toRemove);
+    assertThat(integers).containsExactly(1, 3);
+    ```
+    2. `collection.removeIf(predicate)` - Java 8
+
+    ```java
+    List<Integer> integers = newArrayList(1, 2, 3);
+    integers.removeIf(i -> i == 2);
+    assertThat(integers).containsExactly(1, 3);
+    ```
+
+    3. Stream
+
+    ```java
+    Collection<Integer> integers = newArrayList(1, 2, 3);
+
+    List<String> collected = integers
+        .stream()
+        .filter(i -> i != 2)
+        .collect(Collectors.toList());
+
+    assertThat(collected).containsExactly(1, 3);
+    ```
