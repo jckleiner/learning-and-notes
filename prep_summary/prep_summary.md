@@ -19,6 +19,8 @@ Sum an array or list of numbers with Streams
             .sum();
 ```
 
+`str.chars()` returns an `IntStream` and the numbers can be mapped to characters with `.mapToObject(c -> (char) c)`
+
 If you have a `Int/Long/DoubleStream`, you can do the following:
  - `.boxed()` -> get `Stream<Integer/Double>`
  - `.sum()`
@@ -133,6 +135,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * extract a comparator as a method: `private Comparator<Integer> myComparator() { return (a, b) -> {...}}`
  * `Arrays.asList()` returns a `fixed-size` list. `add()` or `remove()` will throw an exception.
    Wrap it like this to get a mutalbe list: `new ArrayList<>(Arrays.asList(...))`
+ * You want to have a default fallback for an expression which can be `null`, use `Optional.of(...).orElse(0)`
 
  * `Arrays.stream(int[])`       gives you   `IntStream`
  * `Arrays.stream(Integer[])`   gives you   `Stream<Integer>`
@@ -142,9 +145,14 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * `List<Integer>`  -> `int[]`:         `arr.stream().mapToInt(i -> i).toArray()`
  * `List<Integer>`  -> `Integer[]`:     `list.stream().toArray(String[]::new)`
 
+ * String           -> `char[]`:            `str.toCharArray()`
+ * `char[]`         -> `List<Characters>`:  `str.chars().mapToObj(c -> (char) c).collect(Collectors.toList());`
+ * `char[]`         -> `String`:            `new String(char[])`
+ * `Character[]`    -> `String`:            `Arrays.stream(Character[]).map(String::valueOf).collect(Collectors.joining());`
+
  * Array -> String (a primite or non-primite array does NOT have a `toString()` method, so it prints the memory address): 
    `Arrays.toString(arr)` and `Arrays.deepToString(deepArray)`, for arrays, inside arrays
- * 
+ * Subarray: `Arrays.copyOfRange(arr, from, toExclusive)`
 
  
 
