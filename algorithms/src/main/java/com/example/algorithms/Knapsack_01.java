@@ -1,17 +1,23 @@
 package com.example.algorithms;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.algorithms.util.Tuple;
 
 import lombok.Builder;
 import lombok.Data;
 
 
-public class Knapsack {
+public class Knapsack_01 {
 
 	// assuming the weights of the items are integers
 
+	// TODO recursive
 
-	public static Tuple<Integer, List<Item>> knapsack(List<Item> items, int capacity) {
+	// TODO other knapsack types
+
+	public static Tuple<Integer, List<Item>> knapsack_01(List<Item> items, int capacity) {
 
 		// we ignore the 0th row and 0th column, that's why + 1
 		int[][] grid = new int[items.size() + 1][capacity + 1];
@@ -90,10 +96,5 @@ public class Knapsack {
 		private String name;
 	}
 
-	@Data
-	public static class Tuple<T, A> {
-		private T first;
-		private A second;
-	}
 
 }

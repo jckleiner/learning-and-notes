@@ -20,15 +20,17 @@ Sum an array or list of numbers with Streams
 ```
 
 If you have a `Int/Long/DoubleStream`, you can do the following:
- - `.boxed()`
+ - `.boxed()` -> get `Stream<Integer/Double>`
  - `.sum()`
  - `.count()`
  - `.average()`
  - `.min()`
  - `.max()`
+ - `toArray()` -> to get `int[]` or `double[]`
 
 Useful `Stream<T>` methods (also contained in `Int/Long/DoubleStream`):
  - `.distinct()`
+ - `.toArray(Integer[]::new)`
 
 
 ### Hackerrank
@@ -108,6 +110,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Sorting a map of lists
  * Sorting tuples, triples
  * List of lists, flatmap
+ * join multiple lists
  * iterate map
  * BFS
  * str.matches, some common regex
@@ -129,7 +132,20 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Comparator vs Comparable
  * extract a comparator as a method: `private Comparator<Integer> myComparator() { return (a, b) -> {...}}`
  * `Arrays.asList()` returns a `fixed-size` list. `add()` or `remove()` will throw an exception.
-   Wrap it like this to get a regular list: `new ArrayList<>(Arrays.asList(...))` 
+   Wrap it like this to get a mutalbe list: `new ArrayList<>(Arrays.asList(...))`
+
+ * `Arrays.stream(int[])`       gives you   `IntStream`
+ * `Arrays.stream(Integer[])`   gives you   `Stream<Integer>`
+ * `int[]`          -> `Integer[]`:     `Arrays.stream(int[]).boxed().toArray(Integer[]::new);`
+ * `Integer[]`      -> `int[]`:         `Arrays.stream(Integer[]).mapToInt(i -> i).toArray()`
+ * `int[]`          -> `List<Integer>`: `Arrays.stream(int[]).boxed().collect(Collectors.toList())`
+ * `List<Integer>`  -> `int[]`:         `arr.stream().mapToInt(i -> i).toArray()`
+ * `List<Integer>`  -> `Integer[]`:     `list.stream().toArray(String[]::new)`
+
+ * Array -> String (a primite or non-primite array does NOT have a `toString()` method, so it prints the memory address): 
+   `Arrays.toString(arr)` and `Arrays.deepToString(deepArray)`, for arrays, inside arrays
+ * 
+
  
 
 

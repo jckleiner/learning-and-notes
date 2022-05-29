@@ -8,7 +8,7 @@ import java.util.List;
 public class QuickSort {
 
 	// creates new arrays, it is NOT in place
-	public static List<Integer> quickSort(List<Integer> list) {
+	public static List<Integer> quickSortRecursive(List<Integer> list) {
 
 		// base case
 		if (list.size() < 2) {
@@ -29,9 +29,9 @@ public class QuickSort {
 		}
 
 		List<Integer> newList = new ArrayList<>(less.size() + greater.size() + 1);
-		newList.addAll(quickSort(less));
+		newList.addAll(quickSortRecursive(less));
 		newList.addAll(Arrays.asList(pivot));
-		newList.addAll(quickSort(greater));
+		newList.addAll(quickSortRecursive(greater));
 
 		// quickSort(less) + [pivot] + quickSort(greater)
 		return newList;
