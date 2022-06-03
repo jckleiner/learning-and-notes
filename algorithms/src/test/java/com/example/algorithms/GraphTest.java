@@ -48,7 +48,10 @@ class GraphTest {
 
 	@Test
 	void testDepthFirstPrintRecursive() {
+		// A -> B -> D -> F -> C -> E
 		Graph.depthFirstPrintRecursive(buildAcyclicGraph(), "A", null);
+		System.out.println();
+		// A -> B -> D -> F -> C -> E
 		Graph.depthFirstPrintRecursive(buildCyclicGraph(), "A", null);
 		System.out.println();
 	}
@@ -56,19 +59,19 @@ class GraphTest {
 
 	@Test
 	void testHasPathDfsRecursive() {
-		assertThat(Graph.hasPathDfsRecursive(buildAcyclicGraph(), "A", "F", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildAcyclicGraph(), "A", "F", new HashSet<>())).isTrue();
 
-		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "F", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "WFQDSA", new HashMap<>())).isFalse();
+		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "F", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "WFQDSA", new HashSet<>())).isFalse();
 
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "J", new HashMap<>())).isFalse();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "H", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "K", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "I", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "G", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "H", new HashMap<>())).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "F", new HashMap<>())).isFalse();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "J", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "J", new HashSet<>())).isFalse();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "H", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "K", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "I", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "G", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "H", new HashSet<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "F", new HashSet<>())).isFalse();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "J", new HashSet<>())).isTrue();
 		System.out.println();
 	}
 

@@ -8,11 +8,11 @@ public class Graph {
 	public static List<String> breadthFirstPrint(Map<String, List<String>> graph, String startNode) {
 		// queue
 		Queue<String> q = new LinkedList<>();
-		// instant lookup is important.
+		// instant lookup is important. HashSet has O(1) insertion and look up
 		// If we use a list, we need to traverse the list each time to find if a node was visited
-		Map<String, Boolean> nodesVisited = new HashMap<>();
+		Set<String> nodesVisited = new HashSet<>();
 		// used only for testing
-		List<String> nodesVisitedOrdered = new ArrayList<>();
+		List<String> nodesVisitedInOrder = new ArrayList<>();
 
 		// start node -> A
 		q.add(startNode);
@@ -21,28 +21,29 @@ public class Graph {
 			// pop the first node in the queue
 			String current = q.poll();
 
-			if (nodesVisited.get(current) != null) {
+			if (nodesVisited.contains(current)) {
 				continue;
 			}
 
-			nodesVisited.put(current, true);
-			nodesVisitedOrdered.add(current);
-			System.out.println(current);
+			nodesVisited.add(current);
+			nodesVisitedInOrder.add(current);
+
+			// System.out.println(current);
 
 			// add all the neighbours to the queue
 			q.addAll(graph.get(current));
 		}
 
-		return nodesVisitedOrdered;
+		return nodesVisitedInOrder;
 	}
 
 
 	public static List<String> depthFirstPrint(Map<String, List<String>> graph, String startNode) {
 		// stack
 		Stack<String> stack = new Stack<>();
-		// instant lookup is important.
+		// instant lookup is important. HashSet has O(1) insertion and look up
 		// If we use a list, we need to traverse the list each time to find if a node was visited
-		Map<String, Boolean> nodesVisited = new HashMap<>();
+		Set<String> nodesVisited = new HashSet<>();
 		// used only for testing
 		List<String> nodesVisitedOrdered = new ArrayList<>();
 
@@ -53,13 +54,14 @@ public class Graph {
 			String current = stack.pop();
 
 			// if node was visited before, skip the iteration
-			if (nodesVisited.get(current) != null) {
+			if (nodesVisited.contains(current)) {
 				continue;
 			}
 
-			nodesVisited.put(current, true);
+			nodesVisited.add(current);
 			nodesVisitedOrdered.add(current);
-			System.out.println(current);
+
+			// System.out.println(current);
 
 			// add the neighbours to the stack
 			stack.addAll(graph.get(current));
@@ -72,41 +74,41 @@ public class Graph {
 
 	// the call stack can be used as our stack to go deeper
 	// Cyclic graphs are not checked for here
-	public static void depthFirstPrintRecursive(Map<String, List<String>> graph, String node, Map<String, Boolean> visitedNodes) {
+	public static void depthFirstPrintRecursive(Map<String, List<String>> graph, String node, Set<String> nodesVisited) {
 		// this function does not have an explicit base case
 		// the implicit base case is a node with no neighbours
 
-		if (visitedNodes == null) {
-			visitedNodes = new HashMap<>();
+		if (nodesVisited == null) {
+			nodesVisited = new HashSet<>();
 		}
 
-		if (visitedNodes.get(node) != null) {
+		if (nodesVisited.contains(node)) {
 			return; // node already visited
 		}
+		nodesVisited.add(node);
 
 		System.out.println(node);
 
-		List<String> neighbours = graph.get(node);
-		visitedNodes.put(node, true);
-
-		for (String n : neighbours) {
-			depthFirstPrintRecursive(graph, n, visitedNodes);
+		for (String neighbour : graph.get(node)) {
+			if (!nodesVisited.contains(neighbour)) {
+				depthFirstPrintRecursive(graph, neighbour, nodesVisited);
+			}
 		}
 	}
 
 
 	public static boolean hasPathBfs(Map<String, List<String>> graph, String srcNode, String targetNode) {
 		Queue<String> q = new LinkedList<>();
-		Map<String, Boolean> visitedNodes = new HashMap<>();
+		Set<String> nodesVisited = new HashSet<>();
 		q.add(srcNode);
 
 		while (!q.isEmpty()) {
 			String current = q.poll();
 
-			if (visitedNodes.getOrDefault(current, false)) {
+			if (nodesVisited.contains(current)) {
 				continue; // if node was already visited
 			}
-			visitedNodes.put(current, true); // mark as visited
+			nodesVisited.add(current); // mark as visited
 
 			if (targetNode.equals(current)) {
 				return true; // we found the targetNode
@@ -118,7 +120,7 @@ public class Graph {
 
 			// add all the neighbours which were not visited
 			for (String neighbour : graph.get(current)) {
-				if (!visitedNodes.getOrDefault(neighbour, false)) {
+				if (!nodesVisited.contains(neighbour)) {
 					q.add(neighbour);
 				}
 			}
@@ -132,24 +134,24 @@ public class Graph {
 	public static boolean hasPathDfsRecursive(Map<String, List<String>> graph,
 			String srcNode,
 			String targetNode,
-			Map<String, Boolean> visitedNodes) {
+			Set<String> nodesVisited) {
 
 		if (srcNode.equals(targetNode)) {
 			return true; // found the target
 		}
 
-		if (visitedNodes.getOrDefault(srcNode, false)) {
+		if (nodesVisited.contains(srcNode)) {
 			return false; // already visited
 		}
 
-		visitedNodes.put(srcNode, true); // mark as visited
+		nodesVisited.add(srcNode); // mark as visited
 
 		// go deeper into the non-visited neighbours
 		for (String neighbour : graph.get(srcNode)) {
-			if (visitedNodes.getOrDefault(neighbour, false)) {
+			if (nodesVisited.contains(neighbour)) {
 				continue; // skip if neighbour was visited
 			}
-			if (hasPathDfsRecursive(graph, neighbour, targetNode, visitedNodes)) {
+			if (hasPathDfsRecursive(graph, neighbour, targetNode, nodesVisited)) {
 				return true;
 			}
 		}
