@@ -216,6 +216,7 @@ public class Recursion {
 	}
 
 
+	// TODO - does not work
 	public static List<Integer> howSumMemoized(int targetSum, Integer[] numbers,
 			List<Integer> numbersForFirstPossibleSum,
 			Map<Integer, List<Integer>> memo) {
