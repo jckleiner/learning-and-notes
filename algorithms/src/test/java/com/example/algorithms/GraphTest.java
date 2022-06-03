@@ -56,19 +56,57 @@ class GraphTest {
 
 	@Test
 	void testHasPathDfsRecursive() {
-		assertThat(Graph.hasPathDfsRecursive(buildAcyclicGraph(), "A", "F", null)).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildAcyclicGraph(), "A", "F", new HashMap<>())).isTrue();
 
-		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "F", null)).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "F", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildCyclicGraph(), "A", "WFQDSA", new HashMap<>())).isFalse();
 
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "J", null)).isFalse();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "H", null)).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "K", null)).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "I", null)).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "G", null)).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "H", null)).isTrue();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "F", null)).isFalse();
-		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "J", null)).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "J", new HashMap<>())).isFalse();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "H", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "K", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "I", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "F", "G", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "H", new HashMap<>())).isTrue();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "F", new HashMap<>())).isFalse();
+		assertThat(Graph.hasPathDfsRecursive(buildGraph3(), "J", "J", new HashMap<>())).isTrue();
 		System.out.println();
+	}
+
+
+	@Test
+	void testConvertUndirectedEdgeListToAdjacencyList() {
+		String[][] input = new String[][] {
+				{ "i", "j" },
+				{ "k", "i" },
+				{ "m", "k" },
+				{ "k", "l" },
+				{ "o", "n" },
+		};
+
+		Map<String, List<String>> expected = new HashMap<>();
+		expected.put("i", new ArrayList<>(Arrays.asList("j", "k")));
+		expected.put("j", new ArrayList<>(Collections.singleton("i")));
+		expected.put("k", new ArrayList<>(Arrays.asList("i", "m", "l")));
+		expected.put("m", new ArrayList<>(Collections.singleton("k")));
+		expected.put("l", new ArrayList<>(Collections.singleton("k")));
+		expected.put("o", new ArrayList<>(Collections.singleton("n")));
+		expected.put("n", new ArrayList<>(Collections.singleton("o")));
+
+		assertThat(Graph.convertUndirectedEdgeListToAdjacencyList(input)).isEqualTo(expected);
+	}
+
+
+	@Test
+	void connectedComponentCount() {
+		assertThat(Graph.connectedComponentCount(buildGraphWithDisconnectedNodes())).isEqualTo(3);
+		assertThat(Graph.connectedComponentCount(buildGraphWithDisconnectedNodes2())).isEqualTo(2);
+	}
+
+
+	@Test
+	void largestComponentCount() {
+		assertThat(Graph.largestComponentCount(buildGraphWithDisconnectedNodes())).isEqualTo(5);
+		assertThat(Graph.largestComponentCount(buildGraphWithDisconnectedNodes2())).isEqualTo(4);
 	}
 
 
@@ -106,6 +144,33 @@ class GraphTest {
 		map.put("I", Arrays.asList("G", "K"));
 		map.put("J", Arrays.asList("I"));
 		map.put("K", Collections.emptyList());
+		return map;
+	}
+
+
+	Map<String, List<String>> buildGraphWithDisconnectedNodes() {
+		Map<String, List<String>> map = new HashMap<>();
+		map.put("1", Arrays.asList("2"));
+		map.put("2", Arrays.asList("1"));
+		map.put("4", Arrays.asList("6"));
+		map.put("5", Arrays.asList("6"));
+		map.put("7", Arrays.asList("6"));
+		map.put("8", Arrays.asList("6"));
+		map.put("6", Arrays.asList("4", "5", "7", "8"));
+		map.put("3", Collections.emptyList());
+		return map;
+	}
+
+
+	Map<String, List<String>> buildGraphWithDisconnectedNodes2() {
+		Map<String, List<String>> map = new HashMap<>();
+		map.put("0", Arrays.asList("8", "1", "5"));
+		map.put("1", Arrays.asList("0"));
+		map.put("5", Arrays.asList("0", "8"));
+		map.put("8", Arrays.asList("0", "5"));
+		map.put("2", Arrays.asList("3", "4"));
+		map.put("3", Arrays.asList("2", "4"));
+		map.put("4", Arrays.asList("3", "2"));
 		return map;
 	}
 

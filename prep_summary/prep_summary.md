@@ -132,6 +132,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
 
 ### Learned
  * Java natural order
+ * Java Set has O(1) insert and lookup -> https://stackoverflow.com/questions/559839/big-o-summary-for-java-collections-framework-implementations 
  * Comparator vs Comparable
  * extract a comparator as a method: `private Comparator<Integer> myComparator() { return (a, b) -> {...}}`
  * `Arrays.asList()` returns a `fixed-size` list. `add()` or `remove()` will throw an exception.
@@ -156,6 +157,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
    To print an `Integer[]`, you first need to convert it to an `int[]` like this: `Arrays.stream(Integer[]).mapToInt(i -> i).toArray();`
    and then you can print it `Arrays.toString(int[])`.
  * Subarray: `Arrays.copyOfRange(arr, from, toExclusive)`
+ * Multi-dimentional array inline: `String[][] input = new String[][] {{"I", "J"}, {"K", "I"}};`
 
  * `HashMap<Long, Long> memo`, imagine you put only `Long/long` keys. `memo.get(int)` will be `null` event if the given integer exists in the map
 
