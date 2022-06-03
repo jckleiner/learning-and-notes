@@ -123,6 +123,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Trie (auto complete)
  * Traverse a tree
  * Convert `int[]` to `List<Integer>` and vice versa
+ * How does Java save Objects as Hash keys? - https://stackoverflow.com/questions/45831828/can-we-use-object-as-a-key-in-hashmap-in-java
 
 ### General
  1. Unicode vs Utf8 vs utf16
@@ -151,10 +152,12 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * `Character[]`    -> `String`:            `Arrays.stream(Character[]).map(String::valueOf).collect(Collectors.joining());`
 
  * Array -> String (a primite or non-primite array does NOT have a `toString()` method, so it prints the memory address): 
-   `Arrays.toString(arr)` and `Arrays.deepToString(deepArray)`, for arrays, inside arrays
+   `Arrays.toString(int[])` and `Arrays.deepToString(int[])`, for arrays, inside arrays
+   To print an `Integer[]`, you first need to convert it to an `int[]` like this: `Arrays.stream(Integer[]).mapToInt(i -> i).toArray();`
+   and then you can print it `Arrays.toString(int[])`.
  * Subarray: `Arrays.copyOfRange(arr, from, toExclusive)`
 
- 
+ * `HashMap<Long, Long> memo`, imagine you put only `Long/long` keys. `memo.get(int)` will be `null` event if the given integer exists in the map
 
 
 ### Todo - move to docs
