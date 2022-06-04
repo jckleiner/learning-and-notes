@@ -4,6 +4,8 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.algorithms.util.Tuple;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -183,6 +185,25 @@ class GraphTest {
 	}
 
 
+	@Test
+	void testIslandCountMySolution() {
+		assertThat(Graph.islandCountMySolution(buildIsland().getFirst())).isEqualTo(5);
+	}
+
+
+	@Test
+	void testIslandCountAlvinsSolution() {
+		assertThat(Graph.islandCountAlvinsSolution(buildIsland().getFirst())).isEqualTo(5);
+	}
+
+
+	@Test
+	void testTransform2dArrayIntoAdjacencyList() {
+		assertThat(Graph.transform2dArrayIntoAdjacencyList(buildIsland().getFirst()))
+				.isEqualTo(buildIsland().getSecond());
+	}
+
+
 	Map<String, List<String>> buildAcyclicGraph() {
 		Map<String, List<String>> map = new HashMap<>();
 		map.put("A", Arrays.asList("B", "C"));
@@ -245,6 +266,31 @@ class GraphTest {
 		map.put("3", Arrays.asList("2", "4"));
 		map.put("4", Arrays.asList("3", "2"));
 		return map;
+	}
+
+
+	Tuple<String[][], Map<String, Set<String>>> buildIsland() {
+		String[][] island = new String[][] {
+				{ "W", "L", "W", "W", "W" },
+				{ "W", "L", "W", "L", "L" },
+				{ "W", "W", "W", "L", "L" },
+				{ "W", "W", "L", "W", "W" },
+				{ "L", "L", "W", "L", "W" },
+		};
+
+		Map<String, Set<String>> expected = new HashMap<>();
+		expected.put("0,1", new HashSet<>(Arrays.asList("1,1")));
+		expected.put("1,1", new HashSet<>(Arrays.asList("0,1")));
+		expected.put("1,3", new HashSet<>(Arrays.asList("1,4", "2,3")));
+		expected.put("1,4", new HashSet<>(Arrays.asList("1,3", "2,4")));
+		expected.put("2,3", new HashSet<>(Arrays.asList("1,3", "2,4")));
+		expected.put("2,4", new HashSet<>(Arrays.asList("1,4", "2,3")));
+		expected.put("3,2", new HashSet<>());
+		expected.put("4,0", new HashSet<>(Arrays.asList("4,1")));
+		expected.put("4,1", new HashSet<>(Arrays.asList("4,0")));
+		expected.put("4,3", new HashSet<>());
+
+		return new Tuple<>(island, expected);
 	}
 
 }

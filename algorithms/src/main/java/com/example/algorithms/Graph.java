@@ -317,4 +317,172 @@ public class Graph {
 
 		return null;
 	}
+
+
+	public static int islandCountMySolution(String[][] island) {
+		// transform island into a graph
+		Map<String, Set<String>> graph = transform2dArrayIntoAdjacencyList(island);
+
+		// BFS and count the components/islands
+		List<String> allNodes = new ArrayList<>(graph.keySet());
+		int islandCount = 0;
+
+		while (!allNodes.isEmpty()) {
+			String startNode = allNodes.get(0);
+			Queue<String> q = new LinkedList<>();
+			q.add(startNode);
+			Set<String> nodesVisited = new HashSet<>();
+
+			// BFS
+			while (!q.isEmpty()) {
+				String current = q.poll();
+
+				if (nodesVisited.contains(current)) {
+					continue;
+				}
+				nodesVisited.add(current);
+
+				// unvisited neighbours
+				for (String neighbour : graph.get(current)) {
+					if (!nodesVisited.contains(neighbour)) {
+						q.add(neighbour);
+					}
+				}
+			}
+			allNodes.removeAll(nodesVisited);
+			islandCount++;
+		}
+
+		return islandCount;
+	}
+
+
+	public static Map<String, Set<String>> transform2dArrayIntoAdjacencyList(String[][] island) {
+		Map<String, Set<String>> graph = new HashMap<>();
+
+		System.out.println("island: " + Arrays.deepToString(island));
+
+		for (int i = 0; i < island.length; i++) {
+			for (int j = 0; j < island[0].length; j++) {
+
+				if (!island[i][j].equals("L")) {
+					continue;
+				}
+
+				String currentCellKey = i + "," + j;
+				System.out.println("found L: " + currentCellKey);
+
+				if (graph.get(currentCellKey) == null) {
+					graph.put(currentCellKey, new HashSet<>());
+				}
+
+				// right
+				if (j + 1 < island[i].length) {
+
+					if (island[i][j + 1].equals("L")) {
+						String rightCellKey = i + "," + (j + 1);
+						if (graph.get(rightCellKey) == null) {
+							graph.put(rightCellKey, new HashSet<>());
+						}
+						graph.get(rightCellKey).add(currentCellKey);
+						graph.get(currentCellKey).add(rightCellKey);
+					}
+				}
+
+				// bottom
+				if (i + 1 < island.length) {
+
+					if (island[i + 1][j].equals("L")) {
+						String bottomCellKey = (i + 1) + "," + (j);
+						// TODO can be removed
+						if (graph.get(bottomCellKey) == null) {
+							graph.put(bottomCellKey, new HashSet<>());
+						}
+						graph.get(bottomCellKey).add(currentCellKey);
+						graph.get(currentCellKey).add(bottomCellKey);
+					}
+
+				}
+			}
+		}
+
+		return graph;
+	}
+
+
+	public static int islandCountAlvinsSolution(String[][] island) {
+		Set<String> nodesVisited = new HashSet<>();
+		int islandCount = 0;
+
+		for (int i = 0; i < island.length; i++) {
+			for (int j = 0; j < island[0].length; j++) {
+				if (!island[i][j].equals("L")) {
+					continue; // not island
+				}
+				if (nodesVisited.contains(i + "," + j)) {
+					continue; // already visited
+				}
+
+				// since this node was not visited before, we are starting a new bfs
+				// which means a new island
+				islandCount++;
+
+				// BFS
+				Queue<String> q = new LinkedList<>();
+				q.add(i + "," + j);
+
+				while (!q.isEmpty()) {
+					String current = q.poll();
+					int currentRow = Integer.parseInt(current.split(",")[0]);
+					int currentColumn = Integer.parseInt(current.split(",")[1]);
+
+					if (nodesVisited.contains(current)) {
+						continue;
+					}
+					nodesVisited.add(current);
+
+					/* 	add unvisited neighbours to the queue
+						a neighbour is defined as:
+							1. Should be up/left/right/down to the current cell
+							2. Should not be visited yet
+							3. Should be "L" (land)
+					*/
+					// left
+					String leftCellKey = currentRow + "," + (currentColumn - 1);
+					if (currentColumn - 1 > 0
+							&& island[currentRow][currentColumn - 1].equals("L")
+							&& !nodesVisited.contains(leftCellKey)) {
+						q.add(leftCellKey);
+					}
+
+					// right
+					String rightCellKey = currentRow + "," + (currentColumn + 1);
+					if (currentColumn + 1 < island[currentRow].length
+							&& island[currentRow][currentColumn + 1].equals("L")
+							&& !nodesVisited.contains(rightCellKey)) {
+						q.add(rightCellKey);
+					}
+
+					// up
+					String upCellKey = (currentRow + 1) + "," + currentColumn;
+					if (currentRow + 1 < island.length
+							&& island[currentRow + 1][currentColumn].equals("L")
+							&& !nodesVisited.contains(upCellKey)) {
+						q.add(upCellKey);
+					}
+
+					// down
+					String downCellKey = (currentRow - 1) + "," + currentColumn;
+					if (currentRow - 1 > 0
+							&& island[currentRow - 1][currentColumn].equals("L")
+							&& !nodesVisited.contains(downCellKey)) {
+						q.add(downCellKey);
+					}
+				}
+
+			}
+		}
+
+		return islandCount;
+	}
 }

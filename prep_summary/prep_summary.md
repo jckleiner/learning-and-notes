@@ -138,6 +138,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * `Arrays.asList()` returns a `fixed-size` list. `add()` or `remove()` will throw an exception.
    Wrap it like this to get a mutalbe list: `new ArrayList<>(Arrays.asList(...))`
  * You want to have a default fallback for an expression which can be `null`, use `Optional.of(...).orElse(0)`
+ * Careful when comparing strings: https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
 
  * `Arrays.stream(int[])`       gives you   `IntStream`
  * `Arrays.stream(Integer[])`   gives you   `Stream<Integer>`
@@ -160,6 +161,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Multi-dimentional array inline: `String[][] input = new String[][] {{"I", "J"}, {"K", "I"}};`
 
  * `HashMap<Long, Long> memo`, imagine you put only `Long/long` keys. `memo.get(int)` will be `null` event if the given integer exists in the map
+ * 
 
 
 ### Todo - move to docs
