@@ -188,12 +188,84 @@ class GraphTest {
 	@Test
 	void testIslandCountMySolution() {
 		assertThat(Graph.islandCountMySolution(buildIsland().getFirst())).isEqualTo(5);
+
+		String[][] threeIslands = new String[][] {
+				{ "W", "L", "W", "W", "W" },
+				{ "W", "L", "W", "L", "L" },
+				{ "W", "W", "W", "L", "L" },
+				{ "W", "W", "L", "L", "W" },
+				{ "L", "L", "W", "L", "W" },
+		};
+		assertThat(Graph.islandCountMySolution(threeIslands)).isEqualTo(3);
+
+		String[][] twoIslands = new String[][] {
+				{ "L", "W", "L" },
+				{ "W", "W", "W" }
+		};
+		assertThat(Graph.islandCountMySolution(twoIslands)).isEqualTo(2);
+
+		String[][] oneIsland = new String[][] {
+				{ "L", "L", "L" },
+				{ "L", "W", "L" },
+				{ "L", "L", "L" }
+		};
+		assertThat(Graph.islandCountMySolution(oneIsland)).isEqualTo(1);
 	}
 
 
 	@Test
 	void testIslandCountAlvinsSolution() {
 		assertThat(Graph.islandCountAlvinsSolution(buildIsland().getFirst())).isEqualTo(5);
+
+		String[][] threeIslands = new String[][] {
+				{ "W", "L", "W", "W", "W" },
+				{ "W", "L", "W", "L", "L" },
+				{ "W", "W", "W", "L", "L" },
+				{ "W", "W", "L", "L", "W" },
+				{ "L", "L", "W", "L", "W" },
+		};
+		assertThat(Graph.islandCountAlvinsSolution(threeIslands)).isEqualTo(3);
+
+		String[][] twoIslands = new String[][] {
+				{ "L", "W", "L" },
+				{ "W", "W", "W" }
+		};
+		assertThat(Graph.islandCountAlvinsSolution(twoIslands)).isEqualTo(2);
+
+		String[][] oneIsland = new String[][] {
+				{ "L", "L", "L" },
+				{ "L", "W", "L" },
+				{ "L", "L", "L" }
+		};
+		assertThat(Graph.islandCountAlvinsSolution(oneIsland)).isEqualTo(1);
+	}
+
+
+	@Test
+	void testIslandMinCount() {
+		assertThat(Graph.islandMinCount(buildIsland().getFirst())).isEqualTo(1);
+
+		String[][] threeIslands = new String[][] {
+				{ "W", "L", "W", "W", "W" },
+				{ "W", "L", "W", "L", "L" },
+				{ "W", "W", "W", "L", "L" },
+				{ "W", "W", "L", "L", "W" },
+				{ "L", "L", "W", "L", "W" },
+		};
+		assertThat(Graph.islandMinCount(threeIslands)).isEqualTo(2);
+
+		String[][] twoIslands = new String[][] {
+				{ "L", "W", "L" },
+				{ "W", "W", "W" }
+		};
+		assertThat(Graph.islandMinCount(twoIslands)).isEqualTo(1);
+
+		String[][] oneIsland = new String[][] {
+				{ "L", "L", "L" },
+				{ "L", "W", "L" },
+				{ "L", "L", "L" }
+		};
+		assertThat(Graph.islandMinCount(oneIsland)).isEqualTo(8);
 	}
 
 
@@ -201,6 +273,34 @@ class GraphTest {
 	void testTransform2dArrayIntoAdjacencyList() {
 		assertThat(Graph.transform2dArrayIntoAdjacencyList(buildIsland().getFirst()))
 				.isEqualTo(buildIsland().getSecond());
+	}
+
+
+	@Test
+	void testClosestCarrot() {
+		String[][] grid = new String[][] {
+				{ "O", "O", "O", "O", "O" },
+				{ "O", "X", "O", "O", "O" },
+				{ "O", "X", "X", "O", "O" },
+				{ "O", "X", "C", "O", "O" },
+				{ "O", "X", "X", "O", "O" },
+				{ "C", "O", "O", "O", "O" }
+		};
+		assertThat(Graph.closestCarrot(grid, 0, 0)).isEqualTo(5);
+		assertThat(Graph.closestCarrot(grid, 1, 2)).isEqualTo(4);
+		assertThat(Graph.closestCarrot(grid, 3, 2)).isEqualTo(0);
+		assertThat(Graph.closestCarrot(grid, 0, 4)).isEqualTo(5);
+
+		String[][] grid2 = new String[][] {
+				{ "O", "O", "O", "O", "O" },
+				{ "O", "O", "O", "O", "O" },
+				{ "O", "O", "O", "O", "O" },
+				{ "O", "O", "O", "O", "O" },
+				{ "O", "O", "O", "X", "X" },
+				{ "O", "O", "O", "X", "C" }
+		};
+		assertThat(Graph.closestCarrot(grid2, 0, 0)).isEqualTo(-1);
+		assertThat(Graph.closestCarrot(grid2, 0, 4)).isEqualTo(-1);
 	}
 
 

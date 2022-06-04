@@ -1,5 +1,9 @@
 package com.example.algorithms.util;
 
+import lombok.ToString;
+
+
+@ToString
 public class Tuple<T, A> {
 	private T first;
 	private A second;

@@ -485,4 +485,133 @@ public class Graph {
 
 		return islandCount;
 	}
+
+
+	// same as islandCountAlvinsSolution
+	// just count the nodes in an island and do a Math.min(currentMin, currentIsland.size())
+	public static int islandMinCount(String[][] island) {
+		Set<String> nodesVisited = new HashSet<>();
+		int minIslandCount = Integer.MAX_VALUE;
+
+		for (int i = 0; i < island.length; i++) {
+			for (int j = 0; j < island[0].length; j++) {
+				if (!island[i][j].equals("L")) {
+					continue; // not island
+				}
+				if (nodesVisited.contains(i + "," + j)) {
+					continue; // already visited
+				}
+
+				Set<String> currentIslandNodes = new HashSet<>();
+
+				// BFS
+				Queue<String> q = new LinkedList<>();
+				q.add(i + "," + j);
+
+				while (!q.isEmpty()) {
+					String current = q.poll();
+					int currentRow = Integer.parseInt(current.split(",")[0]);
+					int currentColumn = Integer.parseInt(current.split(",")[1]);
+
+					if (nodesVisited.contains(current)) {
+						continue;
+					}
+					nodesVisited.add(current);
+					currentIslandNodes.add(current);
+
+					/* 	add unvisited neighbours to the queue
+						a neighbour is defined as:
+							1. Should be up/left/right/down to the current cell
+							2. Should not be visited yet
+							3. Should be "L" (land)
+					*/
+					// left
+					String leftCellKey = currentRow + "," + (currentColumn - 1);
+					if (currentColumn - 1 > 0
+							&& island[currentRow][currentColumn - 1].equals("L")
+							&& !nodesVisited.contains(leftCellKey)) {
+						q.add(leftCellKey);
+					}
+
+					// right
+					String rightCellKey = currentRow + "," + (currentColumn + 1);
+					if (currentColumn + 1 < island[currentRow].length
+							&& island[currentRow][currentColumn + 1].equals("L")
+							&& !nodesVisited.contains(rightCellKey)) {
+						q.add(rightCellKey);
+					}
+
+					// up
+					String upCellKey = (currentRow + 1) + "," + currentColumn;
+					if (currentRow + 1 < island.length
+							&& island[currentRow + 1][currentColumn].equals("L")
+							&& !nodesVisited.contains(upCellKey)) {
+						q.add(upCellKey);
+					}
+
+					// down
+					String downCellKey = (currentRow - 1) + "," + currentColumn;
+					if (currentRow - 1 > 0
+							&& island[currentRow - 1][currentColumn].equals("L")
+							&& !nodesVisited.contains(downCellKey)) {
+						q.add(downCellKey);
+					}
+				}
+
+				minIslandCount = Math.min(minIslandCount, currentIslandNodes.size());
+			}
+		}
+
+		return minIslandCount;
+	}
+
+
+	public static int closestCarrot(String[][] grid, int startingRow, int startingColumn) {
+		Queue<Tuple<String, Integer>> q = new LinkedList<>();
+		Set<String> nodesVisited = new HashSet<>();
+		q.add(new Tuple<>(startingRow + "," + startingColumn, 0));
+
+		while (!q.isEmpty()) {
+			Tuple<String, Integer> currentTuple = q.poll();
+			int currentRow = Integer.parseInt(currentTuple.getFirst().split(",")[0]);
+			int currentColumn = Integer.parseInt(currentTuple.getFirst().split(",")[1]);
+
+			if (nodesVisited.contains(currentTuple.getFirst())) {
+				continue; // already visited
+			}
+			nodesVisited.add(currentTuple.getFirst());
+
+			// if C was found return
+			if (grid[currentRow][currentColumn].equals("C")) {
+				return currentTuple.getSecond();
+			}
+
+			// we can only visit "O" or "C" neighbours. Cannot go to "X"
+			// up
+			String upKey = (currentRow - 1) + "," + currentColumn;
+			if (currentRow - 1 >= 0 && !grid[currentRow - 1][currentColumn].equals("X") && !nodesVisited.contains(upKey)) {
+				q.add(new Tuple<>(upKey, currentTuple.getSecond() + 1));
+			}
+
+			// down
+			String downKey = (currentRow + 1) + "," + currentColumn;
+			if (currentRow + 1 < grid.length && !grid[currentRow + 1][currentColumn].equals("X") && !nodesVisited.contains(downKey)) {
+				q.add(new Tuple<>(downKey, currentTuple.getSecond() + 1));
+			}
+
+			// left
+			String leftKey = currentRow + "," + (currentColumn - 1);
+			if (currentColumn - 1 >= 0 && !grid[currentRow][currentColumn - 1].equals("X") && !nodesVisited.contains(leftKey)) {
+				q.add(new Tuple<>(leftKey, currentTuple.getSecond() + 1));
+			}
+
+			// right
+			String rightKey = currentRow + "," + (currentColumn + 1);
+			if (currentColumn + 1 < grid[0].length && !grid[currentRow][currentColumn + 1].equals("X") && !nodesVisited.contains(rightKey)) {
+				q.add(new Tuple<>(rightKey, currentTuple.getSecond() + 1));
+			}
+		}
+
+		return -1;
+	}
 }
