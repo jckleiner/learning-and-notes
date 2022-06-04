@@ -100,16 +100,86 @@ class GraphTest {
 
 
 	@Test
-	void connectedComponentCount() {
+	void testConnectedComponentCount() {
 		assertThat(Graph.connectedComponentCount(buildGraphWithDisconnectedNodes())).isEqualTo(3);
 		assertThat(Graph.connectedComponentCount(buildGraphWithDisconnectedNodes2())).isEqualTo(2);
 	}
 
 
 	@Test
-	void largestComponentCount() {
+	void testLargestComponentCount() {
 		assertThat(Graph.largestComponentCount(buildGraphWithDisconnectedNodes())).isEqualTo(5);
 		assertThat(Graph.largestComponentCount(buildGraphWithDisconnectedNodes2())).isEqualTo(4);
+	}
+
+
+	@Test
+	void testShortestPath() {
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "A")).isEqualTo(0);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "B")).isEqualTo(1);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "D")).isEqualTo(2);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "F")).isEqualTo(3);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "C")).isEqualTo(1);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "E")).isEqualTo(2);
+		assertThat(Graph.shortestPath(buildAcyclicGraph(), "A", "XYZ")).isEqualTo(-1);
+
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "A")).isEqualTo(0);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "B")).isEqualTo(1);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "D")).isEqualTo(2);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "F")).isEqualTo(3);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "C")).isEqualTo(1);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "E")).isEqualTo(2);
+		assertThat(Graph.shortestPath(buildCyclicGraph(), "A", "XYZ")).isEqualTo(-1);
+	}
+
+
+	@Test
+	void testShortestPathReturnsPath() {
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "A"))
+				.isEqualTo(Arrays.asList("A"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "B"))
+				.isEqualTo(Arrays.asList("A", "B"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "D"))
+				.isEqualTo(Arrays.asList("A", "B", "D"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "F"))
+				.isEqualTo(Arrays.asList("A", "B", "D", "F"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "C"))
+				.isEqualTo(Arrays.asList("A", "C"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "E"))
+				.isEqualTo(Arrays.asList("A", "C", "E"));
+		assertThat(Graph.shortestPathReturnsPath(buildAcyclicGraph(), "A", "XYZ"))
+				.isNull();
+
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "A"))
+				.isEqualTo(Arrays.asList("A"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "B"))
+				.isEqualTo(Arrays.asList("A", "B"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "D"))
+				.isEqualTo(Arrays.asList("A", "B", "D"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "F"))
+				.isEqualTo(Arrays.asList("A", "B", "D", "F"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "C"))
+				.isEqualTo(Arrays.asList("A", "C"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "E"))
+				.isEqualTo(Arrays.asList("A", "C", "E"));
+		assertThat(Graph.shortestPathReturnsPath(buildCyclicGraph(), "A", "XYZ"))
+				.isNull();
+
+		assertThat(Graph.shortestPathReturnsPath(buildGraph3(), "F", "H"))
+				.isEqualTo(Arrays.asList("F", "G", "H"));
+		assertThat(Graph.shortestPathReturnsPath(buildGraph3(), "J", "H"))
+				.isEqualTo(Arrays.asList("J", "I", "G", "H"));
+		assertThat(Graph.shortestPathReturnsPath(buildGraph3(), "K", "H"))
+				.isNull();
+
+		assertThat(Graph.shortestPathReturnsPath(buildGraphWithDisconnectedNodes(), "1", "2"))
+				.isEqualTo(Arrays.asList("1", "2"));
+		assertThat(Graph.shortestPathReturnsPath(buildGraphWithDisconnectedNodes(), "4", "7"))
+				.isEqualTo(Arrays.asList("4", "6", "7"));
+		assertThat(Graph.shortestPathReturnsPath(buildGraphWithDisconnectedNodes(), "8", "4"))
+				.isEqualTo(Arrays.asList("8", "6", "4"));
+		assertThat(Graph.shortestPathReturnsPath(buildGraphWithDisconnectedNodes(), "3", "6"))
+				.isNull();
 	}
 
 

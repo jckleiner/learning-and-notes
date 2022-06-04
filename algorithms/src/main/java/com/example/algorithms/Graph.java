@@ -2,6 +2,8 @@ package com.example.algorithms;
 
 import java.util.*;
 
+import com.example.algorithms.util.Tuple;
+
 
 public class Graph {
 
@@ -241,5 +243,78 @@ public class Graph {
 		}
 
 		return maxCount;
+	}
+
+
+	public static int shortestPath(Map<String, List<String>> adjList, String srcNode, String destNode) {
+		Queue<Tuple<String, Integer>> q = new LinkedList<>();
+		Set<String> nodesVisited = new HashSet<>();
+		q.add(new Tuple<>(srcNode, 0));
+
+		while (!q.isEmpty()) {
+			Tuple<String, Integer> current = q.poll();
+
+			if (current.getFirst().equals(destNode)) {
+				return current.getSecond();
+			}
+
+			if (nodesVisited.contains(current.getFirst())) {
+				continue;
+			}
+
+			nodesVisited.add(current.getFirst());
+
+			for (String neighbour : adjList.get(current.getFirst())) {
+				if (!nodesVisited.contains(neighbour)) {
+					q.add(new Tuple<>(neighbour, current.getSecond() + 1));
+				}
+			}
+		}
+
+		return -1;
+	}
+
+
+	public static List<String> shortestPathReturnsPath(Map<String, List<String>> adjList, String srcNode, String destNode) {
+		Queue<String> q = new LinkedList<>();
+		Set<String> nodesVisited = new HashSet<>();
+		q.add(srcNode);
+
+		Map<String, String> childToParentMapping = new HashMap<>();
+		childToParentMapping.put(srcNode, null);
+
+		while (!q.isEmpty()) {
+			String current = q.poll();
+
+			if (current.equals(destNode)) {
+				// backtrack to find the path
+				List<String> path = new ArrayList<>();
+				String node = current;
+
+				while (node != null) {
+					path.add(node);
+					node = childToParentMapping.get(node);
+				}
+
+				Collections.reverse(path);
+
+				return path;
+			}
+
+			if (nodesVisited.contains(current)) {
+				continue;
+			}
+
+			nodesVisited.add(current);
+
+			for (String neighbour : adjList.get(current)) {
+				if (!nodesVisited.contains(neighbour)) {
+					childToParentMapping.put(neighbour, current);
+					q.add(neighbour);
+				}
+			}
+		}
+
+		return null;
 	}
 }
