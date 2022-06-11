@@ -33,4 +33,4 @@ build/
 .vscode/
 
 .openapi-generator
-src/gen
+**/src/gen

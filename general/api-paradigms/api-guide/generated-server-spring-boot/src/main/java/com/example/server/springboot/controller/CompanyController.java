@@ -1,4 +1,4 @@
-package com.example.apiguide.controller;
+package com.example.server.springboot.controller;
 
 import java.util.List;
 
@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.apiguide.service.CompanyService;
-
-import de.lmwl.api.companies.CompanyApi;
-import de.lmwl.api.model.Company;
+import com.example.api.companies.CompanyApi;
+import com.example.api.model.Company;
+import com.example.server.springboot.service.CompanyService;
 
 
 @RestController

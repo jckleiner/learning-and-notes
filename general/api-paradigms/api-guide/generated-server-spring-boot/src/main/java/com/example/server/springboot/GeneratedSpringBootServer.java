@@ -1,14 +1,14 @@
-package com.example.apiguide;
+package com.example.server.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class ApiGuideApplication {
+public class GeneratedSpringBootServer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiGuideApplication.class, args);
+		SpringApplication.run(GeneratedSpringBootServer.class, args);
 	}
 
 }

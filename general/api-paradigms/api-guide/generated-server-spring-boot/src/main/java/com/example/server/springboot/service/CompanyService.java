@@ -1,4 +1,4 @@
-package com.example.apiguide.service;
+package com.example.server.springboot.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import de.lmwl.api.model.Company;
+import com.example.api.model.Company;
 
 
 @Service

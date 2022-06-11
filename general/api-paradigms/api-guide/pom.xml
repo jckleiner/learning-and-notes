@@ -2,12 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.example</groupId>
 	<artifactId>api-guide</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -15,136 +18,49 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
+	<modules>
+		<!--<module>generated-client-java-resttemplate</module>-->
+		<module>generated-server-spring-boot</module>
+		<module>generated-client-spring-feign</module>
+		<module>my-service</module>
+		<!--<module>generated-client-java-feign</module>-->
+	</modules>
+
 	<dependencies>
-		<!-- spring boot starter web -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- spring devtools -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-
 		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
-		<!-- spring starter test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Required for code generation -->
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.0</version>
-		</dependency>
-		<!-- Required for code generation -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+		<!-- 	Notice: this plugin is only needed by executable modules,
+				that's why it is defined in pluginManagement and sub-modules should declare it again if needed.
+		-->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<excludes>
+							<exclude>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok</artifactId>
+							</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
 
-			<!-- removes the already generated folders with each "clean" -->
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/gen</directory>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.0.0</version>
-				<executions>
-
-					<!-- api/companies -->
-					<!-- Server generator -->
-					<execution>
-						<id>api-companies</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-
-						<configuration>
-							<inputSpec>${project.basedir}/api/api-companies.yaml</inputSpec>
-							<output>${project.basedir}</output>
-
-							<generateApis>true</generateApis>
-							<generateModels>true</generateModels>
-							<ignoreFileOverride>${project.basedir}/api/ignore</ignoreFileOverride>
-							<generateApiTests>false</generateApiTests>
-							<generateModelTests>false</generateModelTests>
-							<generateApiDocumentation>false</generateApiDocumentation>
-							<generateModelDocumentation>false</generateModelDocumentation>
-							<addCompileSourceRoot>true</addCompileSourceRoot>
-							<generateModelDocumentation>false</generateModelDocumentation>
-							<generateSupportingFiles>false</generateSupportingFiles>
-
-							<!-- Server generator: https://openapi-generator.tech/docs/generators/spring/ -->
-							<generatorName>spring</generatorName>
-
-							<configOptions>
-								<library>spring-boot</library>
-								<apiPackage>de.lmwl.api.companies</apiPackage>
-								<modelPackage>de.lmwl.api.model</modelPackage>
-								<invokerPackage>de.lmwl.api.companies.invoker</invokerPackage>
-								<configPackage>de.lmwl.api.companies.config</configPackage>
-								<sourceFolder>/src/gen/java</sourceFolder>
-								<dateLibrary>java8</dateLibrary>
-								<hideGenerationTimestamp>true</hideGenerationTimestamp>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<!-- uses JsonNullable<String> parentCompany = JsonNullable.undefined() instead of null -->
-								<openApiNullable>false</openApiNullable>
-								<!-- doesn't seem to do anything for this generator -->
-								<useOptional>true</useOptional>
-								<!-- Uses the tag name as the interface name, tag 'company' -> CompanyApi -->
-								<useTags>true</useTags>
-								<!-- if false, also the controller classes are generated (CompanyApiController) -->
-								<interfaceOnly>true</interfaceOnly>
-							</configOptions>
-						</configuration>
-					</execution>
-
-				</executions>
-			</plugin>
-
-		</plugins>
+		</pluginManagement>
 	</build>
 
 </project>

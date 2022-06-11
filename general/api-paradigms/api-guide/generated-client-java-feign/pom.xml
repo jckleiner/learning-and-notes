@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>api-guide</artifactId>
+		<groupId>com.example</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>generated-client-java-feign</artifactId>
+
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+			<version>1.4.7.RELEASE</version>
+		</dependency>
+
+
+
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+			<!-- removes the already generated folders with each "clean" -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src/gen</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>6.0.0</version>
+				<executions>
+
+					<!-- api/companies -->
+					<!-- Server generator -->
+					<execution>
+						<id>api-companies</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+
+						<configuration>
+							<inputSpec>${project.basedir}/../api/api-companies.yaml</inputSpec>
+							<output>${project.basedir}</output>
+
+							<generateApis>true</generateApis>
+							<generateModels>true</generateModels>
+							<ignoreFileOverride>${project.basedir}/api/ignore</ignoreFileOverride>
+							<generateApiTests>false</generateApiTests>
+							<generateModelTests>false</generateModelTests>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<addCompileSourceRoot>true</addCompileSourceRoot>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<generateSupportingFiles>false</generateSupportingFiles>
+
+							<generatorName>java</generatorName>
+
+							<configOptions>
+								<library>feign</library>
+								<dateLibrary>java8</dateLibrary>
+
+								<sourceFolder>/src/gen/java</sourceFolder>
+								<apiPackage>de.lmwl.api.companies</apiPackage>
+								<modelPackage>de.lmwl.api.model</modelPackage>
+								<!--<invokerPackage>de.lmwl.api.companies.invoker</invokerPackage>-->
+								<configPackage>de.lmwl.api.companies.config</configPackage>
+
+								<addCompileSourceRoot>true</addCompileSourceRoot>
+								<generateModelDocumentation>false</generateModelDocumentation>
+								<generateSupportingFiles>false</generateSupportingFiles>
+
+								<hideGenerationTimestamp>true</hideGenerationTimestamp>
+								<skipDefaultInterface>true</skipDefaultInterface>
+								<!-- uses JsonNullable<String> parentCompany = JsonNullable.undefined() instead of null -->
+								<openApiNullable>false</openApiNullable>
+								<!-- doesn't seem to do anything for this generator -->
+								<useOptional>true</useOptional>
+								<!-- Uses the tag name as the interface name, tag 'company' -> CompanyApi -->
+								<useTags>true</useTags>
+								<!-- if false, also the controller classes are generated (CompanyApiController) -->
+								<interfaceOnly>false</interfaceOnly>
+							</configOptions>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+</project>
