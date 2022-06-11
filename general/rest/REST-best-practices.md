@@ -8,6 +8,9 @@
 
 ## Questions
 
+### Versioning
+Best practices: https://stackoverflow.com/questions/389169/best-practices-for-api-versioning
+
 ### Authentication for REST endpoints?
 
 ### In nested resources, when a sub-resource creation requests comes, should the parent be created automatically? Or better to send 2 requests?
