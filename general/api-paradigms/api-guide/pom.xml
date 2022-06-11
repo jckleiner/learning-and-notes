@@ -75,7 +75,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- removes the already generated folders with each clean -->
+			<!-- removes the already generated folders with each "clean" -->
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
@@ -94,6 +94,7 @@
 				<executions>
 
 					<!-- api/companies -->
+					<!-- Server generator -->
 					<execution>
 						<id>api-companies</id>
 						<goals>
@@ -115,8 +116,11 @@
 							<generateModelDocumentation>false</generateModelDocumentation>
 							<generateSupportingFiles>false</generateSupportingFiles>
 
+							<!-- Server generator: https://openapi-generator.tech/docs/generators/spring/ -->
 							<generatorName>spring</generatorName>
+
 							<configOptions>
+								<library>spring-boot</library>
 								<apiPackage>de.lmwl.api.companies</apiPackage>
 								<modelPackage>de.lmwl.api.model</modelPackage>
 								<invokerPackage>de.lmwl.api.companies.invoker</invokerPackage>
@@ -125,10 +129,13 @@
 								<dateLibrary>java8</dateLibrary>
 								<hideGenerationTimestamp>true</hideGenerationTimestamp>
 								<skipDefaultInterface>true</skipDefaultInterface>
-								<library>spring-boot</library>
+								<!-- uses JsonNullable<String> parentCompany = JsonNullable.undefined() instead of null -->
 								<openApiNullable>false</openApiNullable>
+								<!-- doesn't seem to do anything for this generator -->
 								<useOptional>true</useOptional>
+								<!-- Uses the tag name as the interface name, tag 'company' -> CompanyApi -->
 								<useTags>true</useTags>
+								<!-- if false, also the controller classes are generated (CompanyApiController) -->
 								<interfaceOnly>true</interfaceOnly>
 							</configOptions>
 						</configuration>

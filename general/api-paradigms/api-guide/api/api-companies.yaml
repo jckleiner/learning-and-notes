@@ -4,12 +4,16 @@ info:
   title: Company-API
   version: '2.1.0'
 
+# For each distinct 'tags' property, a new '<tagsName>Api' interface will be created
+# if the 'tags' are the same, all methods will be put in the same interface
+# So, operation with the tag 'company' will be put in CompanyApi
+
 paths:
   '/api/companies':
     get:
       operationId: getCompanies
       tags:
-        - companies
+        - company
       responses:
         200:
           description: companies
@@ -24,7 +28,7 @@ paths:
     get:
       operationId: getCompany
       tags:
-        - companies
+        - company
       parameters:
         - in: path
           name: id
@@ -42,12 +46,6 @@ paths:
         404:
           description: Company not found
 
-tags:
-  - name: companies
-
-servers:
-  - url: 'https://www.leipziger-messe.de'
-
 components:
   headers: { }
   responses: { }
@@ -63,6 +61,10 @@ components:
         name:
           type: string
           example: "Google"
+        parentCompany:
+          type: string
+          example: "Alphabet Inc."
+          nullable: true
         departments:
           type: array
           example: "[\"marketing\", \"consulting\"]"
