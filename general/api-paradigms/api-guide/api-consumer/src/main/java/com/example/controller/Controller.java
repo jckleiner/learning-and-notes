@@ -1,8 +1,9 @@
-package com.example.myservice.controller;
+package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.companies.CompanyApiClient;
@@ -16,16 +17,9 @@ public class Controller {
 	private CompanyApiClient companyApiClient;
 
 
-	public Controller(CompanyApiClient companyApiClient) {
-		this.companyApiClient = companyApiClient;
-	}
-
-
-	@GetMapping("/")
-	public ResponseEntity<Company> call() {
-
-		System.out.println("calling...");
-		ResponseEntity<Company> companyResponseEntity = companyApiClient.getCompany("1");
+	@GetMapping("/{companyId}")
+	public ResponseEntity<Company> callServerWithFeignClient(@PathVariable String companyId) {
+		ResponseEntity<Company> companyResponseEntity = companyApiClient.getCompany(companyId);
 
 		return companyResponseEntity;
 	}

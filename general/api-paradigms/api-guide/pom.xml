@@ -27,7 +27,7 @@
 		<!--<module>generated-client-java-resttemplate</module>-->
 		<module>generated-server-spring-boot</module>
 		<module>generated-client-spring-feign</module>
-		<module>my-service</module>
+		<module>api-consumer</module>
 		<!--<module>generated-client-java-feign</module>-->
 	</modules>
 
