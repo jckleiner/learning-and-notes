@@ -4,8 +4,6 @@ services:
     image: "jboss/keycloak:15.0.0"
     ports:
       - "8180:8080"
-    # volumes:
-      # - ../../lmwr-provisioning/roles/keycloak/files/lm-config.json:/tmp/lm-config.json:ro
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin

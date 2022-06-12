@@ -115,9 +115,7 @@ Show output:
 ### rsync
     # uses the key in ~/.ssh/id_rsa, use 'ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_another' to give another identity file
     # created the test dir if it does not exitst
-    # copies everything inside /lmwr-dotsource/ to /test/
     # hard and soft links ???
-    -> rsync -uavz --delete -e 'ssh -o StrictHostKeyChecking=no' ./lmwr-dotsource/ ansible@lmwr-edge01.test-server.ag:/home/ansible/test/
 
 ### nmap
     -> yum install nmap
@@ -472,7 +470,7 @@ order is important, use 'STAR' instead?
 # Mac merge 2 images
   select images -> open all with preview -> select background image and ctrl + C -> File -> new clipboard -> go to other image copy and paste it on background image
 
-# LM - when network not working try:
+# When network not working try:
 
     docker system prune 
     or

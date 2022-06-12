@@ -86,10 +86,10 @@
 								<dateLibrary>java8</dateLibrary>
 
 								<sourceFolder>/src/gen/java</sourceFolder>
-								<apiPackage>de.lmwl.api.companies</apiPackage>
-								<modelPackage>de.lmwl.api.model</modelPackage>
-								<!--<invokerPackage>de.lmwl.api.companies.invoker</invokerPackage>-->
-								<configPackage>de.lmwl.api.companies.config</configPackage>
+								<apiPackage>com.example.api.companies</apiPackage>
+								<modelPackage>com.example.api.model</modelPackage>
+								<!--<invokerPackage>com.example.api.companies.invoker</invokerPackage>-->
+								<configPackage>com.example.api.companies.config</configPackage>
 
 								<addCompileSourceRoot>true</addCompileSourceRoot>
 								<generateModelDocumentation>false</generateModelDocumentation>
