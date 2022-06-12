@@ -449,7 +449,7 @@ public class Graph {
 					*/
 					// left
 					String leftCellKey = currentRow + "," + (currentColumn - 1);
-					if (currentColumn - 1 > 0
+					if (currentColumn - 1 >= 0
 							&& island[currentRow][currentColumn - 1].equals("L")
 							&& !nodesVisited.contains(leftCellKey)) {
 						q.add(leftCellKey);
@@ -473,7 +473,7 @@ public class Graph {
 
 					// down
 					String downCellKey = (currentRow - 1) + "," + currentColumn;
-					if (currentRow - 1 > 0
+					if (currentRow - 1 >= 0
 							&& island[currentRow - 1][currentColumn].equals("L")
 							&& !nodesVisited.contains(downCellKey)) {
 						q.add(downCellKey);
@@ -613,5 +613,232 @@ public class Graph {
 		}
 
 		return -1;
+	}
+
+
+	// The input has to be a "directed acyclic graph"
+	public static int longestPath(Map<String, List<String>> graph) {
+		List<String> allNodes = new ArrayList<>(graph.keySet());
+		Queue<Tuple<String, Integer>> q = new LinkedList<>();
+
+		int maxPath = 0;
+
+		while (!allNodes.isEmpty()) {
+
+			Set<String> nodesVisited = new HashSet<>();
+			System.out.println(allNodes.get(0));
+			q.add(new Tuple<>(allNodes.get(0), 0));
+
+			while (!q.isEmpty()) {
+				// BFS
+				Tuple<String, Integer> currentTuple = q.poll();
+
+				if (nodesVisited.contains(currentTuple.getFirst())) {
+					continue;
+				}
+
+				nodesVisited.add(currentTuple.getFirst());
+
+				maxPath = Math.max(maxPath, currentTuple.getSecond());
+
+				// add unvisited neighbours to the queue
+				for (String neighbour : graph.get(currentTuple.getFirst())) {
+					if (!nodesVisited.contains(neighbour)) {
+						q.add(new Tuple<>(neighbour, currentTuple.getSecond() + 1));
+					}
+				}
+			}
+
+			// remove all the visited nodes from the list
+			// the reason we keep a list of all nodes it because there might be islands of unconnected nodes
+			// meaning just one BFS/DFS might not cover all the nodes
+			allNodes.removeAll(nodesVisited);
+		}
+
+		return maxPath;
+	}
+
+
+	// TODO input must be converted to a graph
+	// The input has to be a "directed acyclic graph"
+	public static int semestersRequired(Map<String, List<String>> graph) {
+
+		return -1;
+	}
+
+
+	// TODO can be refactored
+	public static int bestBridge(String[][] grid) {
+		String firstLandCoordinates = null;
+
+		// find the first cell with an "L" (with land)
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j].equals("L")) {
+					firstLandCoordinates = i + "," + j;
+					System.out.println("found L " + firstLandCoordinates);
+					break;
+				}
+			}
+			// if (firstLandCoordinates != null) {
+			// 	break;
+			// }
+		}
+
+		// BFS
+		// mark all cells in the island as visited
+		Queue<String> q = new LinkedList<>();
+		Set<String> nodesVisited = new HashSet<>();
+		q.add(firstLandCoordinates);
+
+		while (!q.isEmpty()) {
+			String currentCell = q.poll();
+			int row = Integer.parseInt(currentCell.split(",")[0]);
+			int column = Integer.parseInt(currentCell.split(",")[1]);
+
+			if (nodesVisited.contains(currentCell)) {
+				continue;
+			}
+			nodesVisited.add(currentCell);
+
+			// left, up, right, down, unvisited, only to "L" cells
+			// up
+			int upRow = row - 1;
+			String upCellKey = upRow + "," + column;
+			if (upRow >= 0 && grid[upRow][column].equals("L") && !nodesVisited.contains(upCellKey)) {
+				q.add(upCellKey);
+			}
+
+			// down
+			int downRow = row + 1;
+			String downCellKey = downRow + "," + column;
+			if (downRow < grid.length && grid[downRow][column].equals("L") && !nodesVisited.contains(downCellKey)) {
+				q.add(downCellKey);
+			}
+
+			// left
+			int leftColumn = column - 1;
+			String leftCellKey = row + "," + leftColumn;
+			if (leftColumn >= 0 && grid[row][leftColumn].equals("L") && !nodesVisited.contains(leftCellKey)) {
+				q.add(leftCellKey);
+			}
+
+			// left
+			int rightColumn = column + 1;
+			String rightCellKey = row + "," + rightColumn;
+			if (rightColumn < grid[row].length && grid[row][rightColumn].equals("L") && !nodesVisited.contains(rightCellKey)) {
+				q.add(rightCellKey);
+			}
+		}
+
+		// now marked all nodes to form an island
+		// we will iterate over the nodes in the island to find the closest path to an unmarked land cell
+
+		// BFS
+
+		int minBridge = Integer.MAX_VALUE;
+
+		for (String landCoordinate : nodesVisited) {
+			Queue<Tuple<String, Integer>> newQueue = new LinkedList<>();
+			newQueue.add(new Tuple<>(landCoordinate, 0));
+			Set<String> waterVisited = new HashSet<>();
+
+			while (!newQueue.isEmpty()) {
+				Tuple<String, Integer> currentTuple = newQueue.poll();
+				int row = Integer.parseInt(currentTuple.getFirst().split(",")[0]);
+				int column = Integer.parseInt(currentTuple.getFirst().split(",")[1]);
+
+				if (grid[row][column].equals("L") && !nodesVisited.contains(currentTuple.getFirst())) {
+					// we found the second land!
+					minBridge = Math.min(minBridge, currentTuple.getSecond());
+				}
+
+				if (waterVisited.contains(currentTuple.getFirst())) {
+					continue;
+				}
+
+				waterVisited.add(currentTuple.getFirst());
+
+				// up
+				int upRow = row - 1;
+				String upCellKey = upRow + "," + column;
+				if (upRow >= 0 && !nodesVisited.contains(upCellKey)) {
+					newQueue.add(new Tuple<>(upCellKey, currentTuple.getSecond() + 1));
+				}
+
+				// down
+				int downRow = row + 1;
+				String downCellKey = downRow + "," + column;
+				if (downRow < grid.length && !nodesVisited.contains(downCellKey)) {
+					newQueue.add(new Tuple<>(downCellKey, currentTuple.getSecond() + 1));
+				}
+
+				// left
+				int leftColumn = column - 1;
+				String leftCellKey = row + "," + leftColumn;
+				if (leftColumn >= 0 && !nodesVisited.contains(leftCellKey)) {
+					newQueue.add(new Tuple<>(leftCellKey, currentTuple.getSecond() + 1));
+				}
+
+				// left
+				int rightColumn = column + 1;
+				String rightCellKey = row + "," + rightColumn;
+				if (rightColumn < grid[row].length && !nodesVisited.contains(rightCellKey)) {
+					newQueue.add(new Tuple<>(rightCellKey, currentTuple.getSecond() + 1));
+				}
+			}
+		}
+
+		System.out.println(nodesVisited);
+
+		return minBridge - 1;
+	}
+
+
+	// white-gray-black algorithm
+	// TODO, needs either backtracking when a node was hit which does not contain any neighbours, all parents should be colored black
+	// else recursion
+	public static boolean hasCycle(Map<String, List<String>> graph) {
+		// DFS
+		// not visited
+		// visiting
+		// visited
+		List<String> allNodes = new ArrayList<>(graph.keySet());
+		Set<String> visited = new HashSet<>();
+
+		while (!allNodes.isEmpty()) {
+			Stack<String> stack = new Stack<>();
+			Set<String> visiting = new HashSet<>();
+			stack.add(allNodes.get(0));
+
+			String s = "123";
+
+
+			while (!stack.isEmpty()) {
+				System.out.println("stack: " + stack);
+				String current = stack.pop();
+				System.out.println("popping: " + current);
+
+				if (visiting.contains(current)) {
+					System.out.println("true...\n");
+					return true;
+				}
+
+				visiting.add(current);
+
+				// System.out.println(visiting);
+
+				for (String neighbour : graph.get(current)) {
+					if (!visited.contains(neighbour)) {
+						stack.add(neighbour);
+					}
+				}
+			}
+
+			allNodes.removeAll(visiting);
+			visited.addAll(visiting);
+		}
+
+		return false;
 	}
 }

@@ -160,7 +160,7 @@ Or similarly, if you want to iterate over a list in an asc / desc order, meaning
  * Subarray: `Arrays.copyOfRange(arr, from, toExclusive)`
  * Multi-dimentional array inline: `String[][] input = new String[][] {{"I", "J"}, {"K", "I"}};`
 
- * `HashMap<Long, Long> memo`, imagine you put only `Long/long` keys. `memo.get(int)` will be `null` event if the given integer exists in the map
+ * **WHAAAT**: `HashMap<Long, Long> memo`, imagine you put only `Long/long` keys. `memo.get(int)` will be `null` event if the given integer exists in the map
  * 
 
 

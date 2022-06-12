@@ -64,3 +64,7 @@ Different ways to send the version:
  * Cannot have push notifications because it is based on HTTP which is stateless
  * Uses CRUD which is an antipattern(?) - https://www.youtube.com/watch?v=frUNFrP7C9w . Not the fault of REST but since it is used with REST so commonly
  * Resource (Noun) oriented and not Action (verb) oriented (can be argued). Too much focus on the resources which are managed but software is there to do something, which means being action (verb) oriented is better.
+
+### TODO
+ * auth for api's: https://www.youtube.com/watch?v=501dpx2IjGY
+ * event driven: https://www.youtube.com/watch?v=6RvlKYgRFYQ
