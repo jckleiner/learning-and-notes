@@ -182,16 +182,47 @@ Different applications can register their profiles with `UFW` upon installation.
 
 
 ## Processes
-
 What scopes can shell variables have?
 
 https://unix.stackexchange.com/questions/27555/what-scopes-can-shell-variables-have
+
+## What is an init system?
+The init is a daemon process which starts as soon as the computer starts and continue running till, it is shutdown. In-fact init is the first process that starts when a computer boots, making it the parent of all other running processes directly or indirectly and hence typically it is assigned “pid=1“. `systemd` is the most popular init system used in many distros.
+
+**Why is systemd hated so much?**
+ * systemd has many other components which have nothing to do with an init system. People argue that it is bloated and does not follow the unix philosophy
+ * The redhat team maintains the systemd project and people are not so happy with that team.
+
+## systemctl vs. service (systemd vs init / sysvinit)
+Back in the day, depending on the init system and the OS, folders like `/etc/rc.d/` (Redhat) or `/etc/init.d` (Debian using `SysVinit`) contained scripts which were used to manage services (`/etc/rc.d/<SERVICE-NAME> start|stop|restart`).
+ * The `service` command is (almost) the same thing as using the scripts directly: `/etc/init.d/nginx start` == `service nginx start`
+
+This is the crux of the issue. There are two officially adopted methods for controlling services:
+ * **SystemD** handles startup processes through `.service` files. 
+    - `systemctl` is the command to use to manage services.
+    - These files are generally found in `/etc/systemd/system` and `/etc/systemd/user`
+ * **SystemV (SysVinit)** handles startup processes through shell scripts in `/etc/init*`.
+    - `service` is the command to use to manage services (or you can directly use the bash scripts inside `/etc/init*`).
+
+Most modern distributions have made the switch to `systemd`, so `systemctl` is the service manager of choice.
+Fortunately, the developers of `systemd` made sure to retain `service` and redirect it to `systemctl`.
+So, if you run `service nginx start` on a distribution which uses `systemd`, it will still work and will use `systemd` under the hood:
+
+In some distributions **both `/etc/init.d` scripts and `.service` files are present**.
+For instance, installing `nginx` on **Ubuntu 22.04**, both of the following files were installed:
+ * `nginx` was placed in `/etc/init.d`
+ * `nginx.service` was placed in `/etc/systemd/system/multi-user.target.wants`
+
+When you have both an `init.d` script, and a systemd `.service` file with the same name, `systemd` will use the `.service` file for all operations. 
+ * The `service` command will just **redirect to `systemd`**. The `init.d` script **will be ignored**.
+
+> Docker containers **does not** use `systemd`. (Podman does support it)
+> Therefore if you have an Ubuntu container and want to run multiple services inside one container, you need to use `/etc/init.d/` scripts.
 
 ### TODOs
   - rel noopener (how can a malicious site use Window.opener?) nofollow noreferrer
   - TURN/STUN server?
   - PPAs?
-  - Free domain names? "es gibt ja freie .tk .ml .gq und mehr top level domains"
   - DNS check: `https://www.whatsmydns.net/#NS/<yourDomain.com>`
   - how-does-apt-get-really-work: https://unix.stackexchange.com/questions/377736/how-does-apt-get-really-work
   - `su` means super user or switch user/substitute user? What other options/flags are there?
