@@ -267,7 +267,7 @@ Logrotate comes with `/etc/logrotate.conf`. This config file contains the direct
 
 Note that there is also a directive to include a particular folder: `/etc/logrotate.d`. This folder is used for package-specific log rotation requests. Packages designed to take advantage of logrotate drop configuration files into this directory.
 
-## logrotate and fast growing log files
+### logrotate and fast growing log files
 By default, logrotate creates a script in the `/etc/cron.daily/` file, this is a simple script which will basically execute `/usr/sbin/logrotate /etc/logrotate.conf` and this script will be triggered daily.
 
 You can run logrotate as often as you like, but **unless a threshold is reached such as the file size being reached or the appropriate time passed, the logs will not be rotated**.
