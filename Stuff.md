@@ -418,10 +418,20 @@ order is important, use 'STAR' instead?
         launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.php@7.2.plist
 
 # Git
-
-  remove local branches which are not on remote
+remove local branches which are not on remote
     
         git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D
+
+rename branch
+
+        # if you are on the branch you want to rename:
+            ▶ git branch -m new-name
+        # if you want to rename a different branch
+            ▶ git branch -m old-name new-name
+            ▶ git push -u origin new-name
+            ▶ git branch -D old-name
+            ▶ git push -d origin old-name
+
 
 # FIRST Spirit
 

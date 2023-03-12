@@ -186,6 +186,15 @@ What scopes can shell variables have?
 
 https://unix.stackexchange.com/questions/27555/what-scopes-can-shell-variables-have
 
+### PID File
+A PID file, short for process identification file, is a small text file that stores the process ID (PID) of a running program. The PID is a unique number assigned by the operating system to each process, and it is used to identify and manage the process.
+
+When a program is started, it typically creates a PID file in a well-known location, such as the /var/run directory on Unix-based systems. The PID file contains the PID of the running program, which can be used by other programs or system utilities to interact with the process.
+
+PID files are commonly used by system administrators to manage daemon processes, which are long-running background programs that perform specific tasks. By storing the PID in a file, it is easy to monitor and control the daemon process, such as stopping or restarting it.
+
+Some programs may also use the PID file to prevent multiple instances of the same program from running simultaneously. When a program starts, it can check if the PID file already exists, and if so, it can terminate to avoid conflicts.
+
 ## What is an init system?
 The init is a daemon process which starts as soon as the computer starts and continue running till, it is shutdown. In-fact init is the first process that starts when a computer boots, making it the parent of all other running processes directly or indirectly and hence typically it is assigned “pid=1“. `systemd` is the most popular init system used in many distros.
 
@@ -219,7 +228,67 @@ When you have both an `init.d` script, and a systemd `.service` file with the sa
 > Docker containers **does not** use `systemd`. (Podman does support it)
 > Therefore if you have an Ubuntu container and want to run multiple services inside one container, you need to use `/etc/init.d/` scripts.
 
-### TODOs
+## logrotate
+`logrotate` is a utility for managing and rotating log files on a Unix or Linux system. It allows you to automatically rotate, compress, and remove old log files on a regular basis, based on a set of configurable rules.
+
+The `logrotate` utility works by creating a configuration file that specifies the log files to rotate, the frequency of rotation, and the actions to perform on the rotated files, such as compression or removal. This configuration file is typically located in the `/etc/logrotate.d/` directory on most Linux systems.
+
+Logrotate is commonly used on servers and other systems that generate a large volume of log files, as it helps prevent disk space from being consumed by old and outdated logs. By rotating log files regularly, logrotate can also help with troubleshooting and debugging by keeping the most recent logs easily accessible.
+
+### Default config
+Logrotate comes with `/etc/logrotate.conf`. This config file contains the directives for how log files are to be rotated by default. If there is no specific set of directives, the utility acts according to the directives in this file. (see `man logrotate` for details)
+
+`cat /etc/logrotate.conf`:
+
+    # see "man logrotate" for details
+    # rotate log files weekly
+    weekly
+
+    # use the adm group by default, since this is the owning group
+    # of /var/log/syslog.
+    su root adm
+
+    # keep 4 weeks worth of backlogs
+    rotate 4
+
+    # create new (empty) log files after rotating old ones
+    create
+
+    # use date as a suffix of the rotated file
+    #dateext
+
+    # uncomment this if you want your log files compressed
+    #compress
+
+    # packages drop log rotation information into this directory
+    include /etc/logrotate.d
+
+    # system-specific logs may be also be configured here.
+
+Note that there is also a directive to include a particular folder: `/etc/logrotate.d`. This folder is used for package-specific log rotation requests. Packages designed to take advantage of logrotate drop configuration files into this directory.
+
+## logrotate and fast growing log files
+By default, logrotate creates a script in the `/etc/cron.daily/` file, this is a simple script which will basically execute `/usr/sbin/logrotate /etc/logrotate.conf` and this script will be triggered daily.
+
+You can run logrotate as often as you like, but **unless a threshold is reached such as the file size being reached or the appropriate time passed, the logs will not be rotated**.
+
+As an example lets say you have `size 200M` in your config, until your specified file reaches 200 MB, doesnt matter how often you call logrotate, this file won't be rotated. But if it reaches 200 MB and you don't call logrotate, it also won't be rotated.
+
+For log files that build up very quickly (e.g. in the hundreds of MB a day), unless you want them to be very large, you will need to **ensure logrotate is called often**! This is critical. Therefore, to stop your disk filling up with multi-gigabyte log files you need to ensure logrotate is called often enough, otherwise the log rotation will not work as well as you want.
+
+On Ubuntu, you can easily switch to hourly rotation by:
+ * moving the script `/etc/cron.daily/logrotate` to `/etc/cron.hourly/logrotate` 
+ * or add `*/5 * * * * /etc/cron.daily/logrotate` to your `/etc/crontab file` (to run it every 5 minutes).
+
+The `size` option ignores the daily, weekly, monthly time options. But `minsize` & `maxsize` take it into account.
+
+Also make sure the `dateext` line is commented out from the `/etc/logrotate.conf` file because if not it will use the date timestamp as the suffix instead of numbers (like `...-1.gz`, `...-2.gz` etc.) or you could also adjust the format `dateext dateformat -%Y-%m-%d-%s` to add seconds, to make the file names unique (https://stackoverflow.com/questions/25845752/logrotate-suffix-dateext-rotate)
+
+Read more: https://stackoverflow.com/questions/20162176/centos-linux-setting-logrotate-to-maximum-file-size-for-all-logs
+
+## ...
+
+## TODOs
   - rel noopener (how can a malicious site use Window.opener?) nofollow noreferrer
   - TURN/STUN server?
   - PPAs?

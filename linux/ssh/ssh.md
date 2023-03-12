@@ -29,3 +29,4 @@ To enable sending a keep-alive signal for all hosts, place the following content
  
 ## TODO
  * SSH Tunnel vs SOCKS Proxy (`ssh -N -D 1234 user@server` and then using localhost:1234 as proxy)
+ * Add explanation for `ssh-add` and also the multiple ssh config here?
