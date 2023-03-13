@@ -235,6 +235,18 @@ The `logrotate` utility works by creating a configuration file that specifies th
 
 Logrotate is commonly used on servers and other systems that generate a large volume of log files, as it helps prevent disk space from being consumed by old and outdated logs. By rotating log files regularly, logrotate can also help with troubleshooting and debugging by keeping the most recent logs easily accessible.
 
+Example config file for varnish, `/etc/logrotate.d/varnish`
+```
+/var/log/varnish/varnishncsa.log {
+  rotate 10
+  size 500M
+  compress
+}
+```
+This configuration basically means that if the specified file is larger then 500 MB, it will be compressed and rotated.
+Rotated means just it gets a suffix like `-1`, `-2` etc (`varnishncsa.log-1.gz`, `varnishncsa.log-2.gz`...). This will be done 10 times and when 10 rotated/old log files are present, the oldest one will be deleted when a new file is rotated. This **does not happen automatically**, it is important that the `logrotate` should be called regularly to check if files have to be rotated.
+
+
 ### Default config
 Logrotate comes with `/etc/logrotate.conf`. This config file contains the directives for how log files are to be rotated by default. If there is no specific set of directives, the utility acts according to the directives in this file. (see `man logrotate` for details)
 
@@ -285,6 +297,9 @@ The `size` option ignores the daily, weekly, monthly time options. But `minsize`
 Also make sure the `dateext` line is commented out from the `/etc/logrotate.conf` file because if not it will use the date timestamp as the suffix instead of numbers (like `...-1.gz`, `...-2.gz` etc.) or you could also adjust the format `dateext dateformat -%Y-%m-%d-%s` to add seconds, to make the file names unique (https://stackoverflow.com/questions/25845752/logrotate-suffix-dateext-rotate)
 
 Read more: https://stackoverflow.com/questions/20162176/centos-linux-setting-logrotate-to-maximum-file-size-for-all-logs
+
+## Cron
+TODO - codument `/etc/cron.d` vs `/etc/cron.{daily|hourly|weekly}/` vs crontab?
 
 ## ...
 
